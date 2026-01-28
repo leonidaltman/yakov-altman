@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lev Altman</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <meta property="og:title" content="Lev Altman">
+    <meta property="og:description" content="Growing stronger every second">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://levaltman.com">
+    <style>
+        :root {
+            --primary-color: #0071e3;
+            --secondary-color: #86868b;
+            --background-color: #fbfbfd;
+            --text-color: #1d1d1f;
+            --water-color: rgba(0, 113, 227, 0.1);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .water-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(
+                180deg,
+                var(--water-color) 0%,
+                rgba(0, 113, 227, 0.15) 100%
+            );
+            transition: height 0.5s ease-out;
+            z-index: 1;
+        }
+
+        .wave {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 200%;
+            height: 25px;
+            background: radial-gradient(
+                2px at 50% 50%,
+                rgba(255, 255, 255, 0.15) 0%,
+                transparent 100%
+            ) repeat-x;
+            filter: blur(1px);
+            transform: translateX(calc(var(--mouse-x, 0) * 1px));
+            will-change: transform;
+        }
+
+        .wave1 {
+            opacity: 0.7;
+            background-size: 50px 25px;
+            animation: wave1 12s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+        }
+
+        .wave2 {
+            opacity: 0.5;
+            top: -20px;
+            background-size: 40px 20px;
+            animation: wave2 15s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+        }
+
+        .wave3 {
+            opacity: 0.3;
+            top: -15px;
+            background-size: 30px 15px;
+            animation: wave3 10s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+        }
+
+        @keyframes wave1 {
+            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
+            50% { transform: translateX(calc(-25% + var(--mouse-x, 0) * 1px)) translateY(2px); }
+            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        }
+
+        @keyframes wave2 {
+            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
+            50% { transform: translateX(calc(-20% + var(--mouse-x, 0) * 1px)) translateY(-2px); }
+            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        }
+
+        @keyframes wave3 {
+            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
+            50% { transform: translateX(calc(-30% + var(--mouse-x, 0) * 1px)) translateY(1px); }
+            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 56px;
+            line-height: 1.07143;
+            font-weight: 600;
+            letter-spacing: -0.005em;
+            margin-bottom: 0.5em;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .time-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-value {
+            font-size: 48px;
+            font-weight: 400;
+            color: var(--primary-color);
+            font-feature-settings: "tnum";
+            min-width: 80px;
+            transition: opacity 0.2s ease;
+        }
+
+        .time-value.updating {
+            opacity: 0.5;
+        }
+
+        .time-label {
+            font-size: 14px;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+        }
+
+        .message {
+            font-size: 21px;
+            line-height: 1.381;
+            font-weight: 400;
+            letter-spacing: .011em;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            transition: opacity 0.2s ease-in-out;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                padding: 1.5rem;
+                max-width: 600px;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .time-value {
+                font-size: 40px;
+                min-width: 70px;
+            }
+        }
+
+        @media (max-width: 734px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .timer {
+                gap: 0.8rem;
+            }
+
+            .time-value {
+                font-size: 32px;
+                min-width: 60px;
+            }
+
+            .time-label {
+                font-size: 12px;
+            }
+
+            .message {
+                font-size: 16px;
+                padding: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 32px;
+                margin-bottom: 1rem;
+            }
+
+            .timer {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .time-segment {
+                flex: 0 0 100%;
+                margin-bottom: 1rem;
+            }
+
+            .time-value {
+                font-size: 28px;
+                min-width: 50px;
+            }
+
+            .time-label {
+                font-size: 11px;
+            }
+
+            .message {
+                font-size: 14px;
+                margin-top: 1rem;
+            }
+        }
+
+        /* Handle very small screens */
+        @media (max-width: 320px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .time-value {
+                font-size: 24px;
+                min-width: 40px;
+            }
+
+            .time-segment {
+                margin-bottom: 0.8rem;
+            }
+        }
+
+        /* Handle landscape orientation on mobile */
+        @media (max-height: 480px) and (orientation: landscape) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 24px;
+                margin-bottom: 0.5rem;
+            }
+
+            .timer {
+                margin: 1rem 0;
+            }
+
+            .time-value {
+                font-size: 24px;
+            }
+
+            .message {
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Handle larger screens */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1000px;
+            }
+
+            h1 {
+                font-size: 64px;
+            }
+
+            .time-value {
+                font-size: 56px;
+                min-width: 100px;
+            }
+
+            .time-label {
+                font-size: 16px;
+            }
+
+            .message {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="water-fill" id="water-fill">
+        <div class="wave wave1"></div>
+        <div class="wave wave2"></div>
+        <div class="wave wave3"></div>
+    </div>
+
+    <div class="container">
+        <h1>Lev Altman</h1>
+        <div class="timer" id="timer"></div>
+        <div class="message">Growing stronger every second</div>
+    </div>
+
+    <script>
+        const birthDate = new Date('2026-01-26T19:51:00.000Z');
+        const eighteenYears = new Date('2044-01-26T19:51:00.000Z');
+
+        function getAgeMessage(days) {
+            if (days < 0) {
+                const daysUntil = Math.abs(days);
+                if (daysUntil > 270) return "A new journey will begin soon...";
+                if (daysUntil > 180) return "Growing stronger each day";
+                if (daysUntil > 90) return "Almost ready to meet the world";
+                if (daysUntil > 30) return "The countdown begins!";
+                return "Any day now...";
+            }
+
+            const milestones = [
+                { days: 7, message: "Welcome to your first week!" },
+                { days: 30, message: "One month of pure joy" },
+                { days: 100, message: "100 days of wonder" },
+                { days: 183, message: "Half a year of adventures" },
+                { days: 365, message: "One year around the sun!" },
+                { days: 730, message: "Two years of endless discoveries" },
+                { days: 1095, message: "Three years of growing wisdom" },
+                { days: 1460, message: "Four years of boundless energy" },
+                { days: 1825, message: "Five years of pure magic" },
+                { days: 2190, message: "Six years and counting" },
+                { days: 2555, message: "Lucky number seven" },
+                { days: 2920, message: "Eight years of excellence" },
+                { days: 3285, message: "Nine years of brilliance" },
+                { days: 3650, message: "A decade of amazing memories" },
+                { days: 4380, message: "Twelve years of determination" },
+                { days: 5110, message: "Fourteen years of inspiration" },
+                { days: 5475, message: "Fifteen years of growth" },
+                { days: 6205, message: "Sweet sixteen!" },
+                { days: 6570, message: "Seventeen years strong" },
+                { days: 6935, message: "Eighteen years of incredible journey" }
+            ];
+
+            const lastMilestone = milestones.filter(m => m.days <= days).pop();
+            if (lastMilestone && lastMilestone.days === days) {
+                return lastMilestone.message;
+            }
+
+            const phases = [
+                { days: 30, message: "Every day brings new wonders" },
+                { days: 365, message: "Learning and discovering" },
+                { days: 1825, message: "Exploring the world with curiosity" },
+                { days: 3650, message: "Creating unforgettable memories" },
+                { days: 5475, message: "Pursuing dreams and passions" },
+                { days: 6935, message: "Building an amazing future" }
+            ];
+
+            const currentPhase = phases.filter(p => p.days <= days).pop();
+            return currentPhase ? currentPhase.message : "Growing stronger every second";
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - birthDate;
+            const totalJourney = eighteenYears - birthDate;
+
+            // Update water fill
+            const progress = ((now - birthDate) / (eighteenYears - birthDate)) * 100;
+            const waterFill = document.getElementById('water-fill');
+            waterFill.style.height = `${Math.max(0, Math.min(progress, 100))}%`;
+
+            if (diff < 0) {
+                const countdown = Math.abs(diff);
+                const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
+
+                document.getElementById('timer').innerHTML = getTimeHTML(days, hours, minutes, seconds, 'until arrival', false);
+            } else {
+                // Calculate years and remaining days
+                let years = now.getFullYear() - birthDate.getFullYear();
+                const birthDateThisYear = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+
+                // Adjust if birthday hasn't occurred this year
+                if (now < birthDateThisYear) {
+                    years--;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('timer').innerHTML = getTimeHTML(days, hours, minutes, seconds, 'of life', years);
+            }
+
+            const messageElement = document.querySelector('.message');
+            const newMessage = getAgeMessage(years ? days % 365 : days);
+
+            if (messageElement.dataset.lastMessage !== newMessage) {
+                messageElement.style.opacity = '0';
+                setTimeout(() => {
+                    messageElement.textContent = newMessage;
+                    messageElement.style.opacity = '1';
+                }, 200);
+                messageElement.dataset.lastMessage = newMessage;
+            }
+        }
+
+        function getTimeHTML(days, hours, minutes, seconds, suffix, years) {
+            const now = new Date();
+
+            // Handle case when birth hasn't happened yet
+            if (now < birthDate) {
+                return `
+                    <div class="time-segment">
+                        <span class="time-value">${days}</span>
+                        <span class="time-label">days ${suffix}</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value">${String(hours).padStart(2, '0')}</span>
+                        <span class="time-label">hours</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value">${String(minutes).padStart(2, '0')}</span>
+                        <span class="time-label">minutes</span>
+                    </div>
+                    <div class="time-segment">
+                        <span class="time-value">${String(seconds).padStart(2, '0')}</span>
+                        <span class="time-label">seconds</span>
+                    </div>
+                `;
+            }
+
+            // Function to calculate months between dates considering time of day
+            function getMonthsDiff(d1, d2) {
+                let months = (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth());
+
+                // Get the day difference considering time of day
+                const d1Day = d1.getDate() + d1.getHours()/24 + d1.getMinutes()/(24*60) + d1.getSeconds()/(24*60*60);
+                const d2Day = d2.getDate() + d2.getHours()/24 + d2.getMinutes()/(24*60) + d2.getSeconds()/(24*60*60);
+
+                if (d2Day < d1Day) {
+                    months--;
+                }
+
+                return months;
+            }
+
+            // Calculate total months lived
+            const totalMonths = getMonthsDiff(birthDate, now);
+
+            // Calculate years and remaining months
+            const yearsLived = Math.floor(totalMonths / 12);
+            const monthsAfterYears = totalMonths % 12;
+
+            // Calculate remaining days
+            const lastMonthDate = new Date(now.getFullYear(), now.getMonth(), birthDate.getDate(),
+                                         birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds());
+            if (lastMonthDate > now) {
+                lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+            }
+            const remainingDays = Math.floor((now - lastMonthDate) / (1000 * 60 * 60 * 24));
+
+            return `
+                ${yearsLived > 0 ? `
+                <div class="time-segment">
+                    <span class="time-value">${yearsLived}</span>
+                    <span class="time-label">year${yearsLived > 1 ? 's' : ''} ${suffix}</span>
+                </div>
+                ` : ''}
+                ${monthsAfterYears > 0 ? `
+                <div class="time-segment">
+                    <span class="time-value">${monthsAfterYears}</span>
+                    <span class="time-label">month${monthsAfterYears > 1 ? 's' : ''} ${yearsLived ? '' : suffix}</span>
+                </div>
+                ` : ''}
+                ${remainingDays > 0 ? `
+                <div class="time-segment">
+                    <span class="time-value">${remainingDays}</span>
+                    <span class="time-label">day${remainingDays > 1 ? 's' : ''} ${(!yearsLived && !monthsAfterYears) ? suffix : ''}</span>
+                </div>
+                ` : ''}
+                <div class="time-segment">
+                    <span class="time-value">${String(hours).padStart(2, '0')}</span>
+                    <span class="time-label">hours</span>
+                </div>
+                <div class="time-segment">
+                    <span class="time-value">${String(minutes).padStart(2, '0')}</span>
+                    <span class="time-label">minutes</span>
+                </div>
+                <div class="time-segment">
+                    <span class="time-value">${String(seconds).padStart(2, '0')}</span>
+                    <span class="time-label">seconds</span>
+                </div>
+            `;
+        }
+
+        function updateSeasonalColors() {
+            const now = new Date();
+            const month = now.getMonth();
+            const day = now.getDate();
+            const root = document.documentElement;
+
+            // Astronomical seasons with exact dates and gradual color transitions
+            const seasons = {
+                winter: {
+                    start: { month: 11, day: 21 },  // December 21
+                    end: { month: 2, day: 19 },     // March 19
+                    mainColor: 'rgba(0, 149, 255, 0.1)',
+                    transitionColor: 'rgba(64, 196, 255, 0.1)'  // Transitions to spring
+                },
+                spring: {
+                    start: { month: 2, day: 20 },    // March 20
+                    end: { month: 5, day: 20 },      // June 20
+                    mainColor: 'rgba(64, 196, 255, 0.1)',
+                    transitionColor: 'rgba(0, 183, 255, 0.1)'   // Transitions to summer
+                },
+                summer: {
+                    start: { month: 5, day: 21 },    // June 21
+                    end: { month: 8, day: 22 },      // September 22
+                    mainColor: 'rgba(0, 183, 255, 0.1)',
+                    transitionColor: 'rgba(0, 113, 227, 0.1)'   // Transitions to fall
+                },
+                fall: {
+                    start: { month: 8, day: 23 },    // September 23
+                    end: { month: 11, day: 20 },     // December 20
+                    mainColor: 'rgba(0, 113, 227, 0.1)',
+                    transitionColor: 'rgba(0, 149, 255, 0.1)'   // Transitions to winter
+                }
+            };
+
+            function isDateInRange(month, day, start, end) {
+                const currentDate = month * 100 + day;
+                const startDate = start.month * 100 + start.day;
+                const endDate = end.month * 100 + end.day;
+
+                // Handle year wrap (winter)
+                if (startDate > endDate) {
+                    return currentDate >= startDate || currentDate <= endDate;
+                }
+                return currentDate >= startDate && currentDate <= endDate;
+            }
+
+            function calculateTransitionProgress(month, day, season) {
+                const daysInTransition = 15; // Number of days for color transition
+                const currentDate = new Date(now.getFullYear(), month, day);
+
+                // Calculate days from season start/end
+                const seasonStart = new Date(now.getFullYear(), season.start.month, season.start.day);
+                const seasonEnd = new Date(now.getFullYear(), season.end.month, season.end.day);
+
+                // Handle year wrap for winter
+                if (season.start.month === 11 && month < 2) {
+                    seasonStart.setFullYear(seasonStart.getFullYear() - 1);
+                }
+
+                const daysFromStart = Math.abs((currentDate - seasonStart) / (1000 * 60 * 60 * 24));
+                const daysToEnd = Math.abs((seasonEnd - currentDate) / (1000 * 60 * 60 * 24));
+
+                if (daysFromStart < daysInTransition) {
+                    return daysFromStart / daysInTransition;
+                } else if (daysToEnd < daysInTransition) {
+                    return 1 - (daysToEnd / daysInTransition);
+                }
+                return 1;
+            }
+
+            function interpolateColors(color1, color2, progress) {
+                const regex = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/;
+                const [_, r1, g1, b1, a1] = color1.match(regex).map(Number);
+                const [__, r2, g2, b2, a2] = color2.match(regex).map(Number);
+
+                const r = Math.round(r1 + (r2 - r1) * progress);
+                const g = Math.round(g1 + (g2 - g1) * progress);
+                const b = Math.round(b1 + (b2 - b1) * progress);
+                const a = Number((a1 + (a2 - a1) * progress).toFixed(3));
+
+                return `rgba(${r}, ${g}, ${b}, ${a})`;
+            }
+
+            let currentSeason = 'winter';
+            let color = seasons.winter.mainColor;
+
+            // Determine current season and calculate color
+            for (const [season, dates] of Object.entries(seasons)) {
+                if (isDateInRange(month, day, dates.start, dates.end)) {
+                    currentSeason = season;
+                    const progress = calculateTransitionProgress(month, day, dates);
+                    color = interpolateColors(dates.mainColor, dates.transitionColor, progress);
+                    break;
+                }
+            }
+
+            // Update CSS variable
+            root.style.setProperty('--water-color', color);
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+        updateSeasonalColors();
+        setInterval(updateSeasonalColors, 1000 * 60 * 60); // Update colors every hour
+
+        let mouseX = 0;
+        let mouseXInterpolated = 0;
+        const interpolationFactor = 0.08; // Adjust for smoother/faster movement
+
+        function updateWaves() {
+            // Smooth interpolation
+            const dx = mouseX - mouseXInterpolated;
+            mouseXInterpolated += dx * interpolationFactor;
+
+            // Update CSS variable
+            document.documentElement.style.setProperty('--mouse-x', mouseXInterpolated);
+
+            // Continue animation loop
+            requestAnimationFrame(updateWaves);
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            // Calculate mouse position relative to window center
+            const centerX = window.innerWidth / 2;
+            mouseX = (e.clientX - centerX) / 10; // Adjust divisor to control movement intensity
+        });
+
+        // Start the animation loop
+        updateWaves();
+    </script>
+</body>
+</html>
