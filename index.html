@@ -2,22 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lev Altman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Lev Altman - Growing Stronger Every Second</title>
+    <meta name="description" content="A live timer counting the time since Lev Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
+    <meta name="keywords" content="Lev Altman, birth timer, life counter, growing, milestone tracker">
+    <meta name="author" content="Leonid Altman">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Preload critical resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <meta property="og:title" content="Lev Altman">
-    <meta property="og:description" content="Growing stronger every second">
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://levaltman.com">
+    <meta property="og:title" content="Lev Altman - Growing Stronger Every Second">
+    <meta property="og:description" content="A live timer counting the time since Lev Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
+    <meta property="og:site_name" content="Lev Altman">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://levaltman.com">
+    <meta property="twitter:title" content="Lev Altman - Growing Stronger Every Second">
+    <meta property="twitter:description" content="A live timer counting the time since Lev Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
+    
+    <!-- Favicons and app icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Lev Altman",
+      "birthDate": "2026-01-26",
+      "familyName": "Altman",
+      "givenName": "Lev",
+      "url": "https://levaltman.com",
+      "description": "Growing stronger every second since January 26, 2026"
+    }
+    </script>
     <style>
         :root {
             --primary-color: #0071e3;
             --secondary-color: #86868b;
             --background-color: #fbfbfd;
             --text-color: #1d1d1f;
-            --water-color: rgba(0, 113, 227, 0.1);
+            
+            /* Sky gradient variables */
+            --sky-color-1: #87CEEB;
+            --sky-color-2: #98D8E8;
+            --sky-color-3: #B0E0E6;
+            --sky-transition-duration: 10s;
         }
 
         body {
@@ -29,206 +67,632 @@
             justify-content: center;
             align-items: center;
             font-family: -apple-system, 'Inter', sans-serif;
-            background-color: var(--background-color);
+            background: linear-gradient(
+                180deg,
+                var(--sky-color-1) 0%,
+                var(--sky-color-2) 50%,
+                var(--sky-color-3) 100%
+            );
             color: var(--text-color);
             -webkit-font-smoothing: antialiased;
+            transition: background var(--sky-transition-duration) ease-in-out;
             position: relative;
             overflow: hidden;
         }
 
-        .water-fill {
-            position: absolute;
-            bottom: 0;
+        /* Modern 2025 Weather Canvas System */
+        #weather-canvas {
+            position: fixed;
+            top: 0;
             left: 0;
-            width: 100%;
-            background: linear-gradient(
-                180deg,
-                var(--water-color) 0%,
-                rgba(0, 113, 227, 0.15) 100%
-            );
-            transition: height 0.5s ease-out;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
             z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
         }
 
-        .wave {
-            position: absolute;
-            top: -25px;
+        #weather-canvas.active {
+            opacity: 1;
+        }
+
+        /* Lightning flash overlay */
+        .lightning-flash {
+            position: fixed;
+            top: 0;
             left: 0;
-            width: 200%;
-            height: 25px;
-            background: radial-gradient(
-                2px at 50% 50%,
-                rgba(255, 255, 255, 0.15) 0%,
-                transparent 100%
-            ) repeat-x;
-            filter: blur(1px);
-            transform: translateX(calc(var(--mouse-x, 0) * 1px));
-            will-change: transform;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(ellipse at var(--lightning-x, 50%) var(--lightning-y, 30%), 
+                        rgba(255, 255, 255, 0.95) 0%, 
+                        rgba(135, 206, 235, 0.7) 20%, 
+                        transparent 50%);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+            mix-blend-mode: screen;
         }
 
-        .wave1 {
+        .lightning-flash.active {
+            animation: lightning-modern 0.15s ease-out;
+        }
+
+        @keyframes lightning-modern {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            20% { opacity: 0.3; }
+            30% { opacity: 1; }
+            40% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Data-Driven Weather Widget */
+        .weather-widget {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 16px;
+            padding: 1rem 1.25rem;
+            font-family: -apple-system, 'Inter', monospace;
+            text-align: left;
+            min-width: 140px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .weather-widget.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .weather-widget:hover {
+            background: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            cursor: default;
+        }
+
+        .weather-loading {
+            font-size: 1.2rem;
+            animation: weather-pulse 2s ease-in-out infinite;
+            text-align: center;
+        }
+
+        @keyframes weather-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .weather-location {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .weather-temp {
+            font-size: 2rem;
+            font-weight: 200;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 0.4rem;
+            font-feature-settings: "tnum";
+            letter-spacing: -0.02em;
+        }
+
+        .weather-data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0.3rem 0;
+            font-feature-settings: "tnum";
+        }
+
+        .weather-data-label {
             opacity: 0.7;
-            background-size: 50px 25px;
-            animation: wave1 12s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+            letter-spacing: 0.03em;
         }
 
-        .wave2 {
-            opacity: 0.5;
-            top: -20px;
-            background-size: 40px 20px;
-            animation: wave2 15s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+        .weather-data-value {
+            font-weight: 500;
+            font-family: 'Inter', monospace;
         }
 
-        .wave3 {
-            opacity: 0.3;
-            top: -15px;
-            background-size: 30px 15px;
-            animation: wave3 10s cubic-bezier(0.36, 0, 0.64, 1) infinite;
+        .weather-wind-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            position: relative;
+            margin-left: 4px;
+            vertical-align: middle;
         }
 
-        @keyframes wave1 {
-            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
-            50% { transform: translateX(calc(-25% + var(--mouse-x, 0) * 1px)) translateY(2px); }
-            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        .weather-wind-indicator::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 3px solid transparent;
+            border-right: 3px solid transparent;
+            border-bottom: 5px solid rgba(255, 255, 255, 0.8);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
         }
 
-        @keyframes wave2 {
-            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
-            50% { transform: translateX(calc(-20% + var(--mouse-x, 0) * 1px)) translateY(-2px); }
-            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        .weather-intensity-bar {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 1px;
+            margin-top: 0.5rem;
+            overflow: hidden;
         }
 
-        @keyframes wave3 {
-            0% { transform: translateX(calc(var(--mouse-x, 0) * 1px)) translateY(0); }
-            50% { transform: translateX(calc(-30% + var(--mouse-x, 0) * 1px)) translateY(1px); }
-            100% { transform: translateX(calc(0% + var(--mouse-x, 0) * 1px)) translateY(0); }
+        .weather-intensity-fill {
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            transition: width 0.5s ease;
+        }
+
+        /* Sky gradient presets for different conditions */
+        .sky-dawn-clear {
+            --sky-color-1: #FFB6C1;
+            --sky-color-2: #FFA07A;
+            --sky-color-3: #FFE4B5;
+        }
+
+        .sky-morning-clear {
+            --sky-color-1: #87CEEB;
+            --sky-color-2: #98D8E8;
+            --sky-color-3: #B0E0E6;
+        }
+
+        .sky-noon-clear {
+            --sky-color-1: #4A90E2;
+            --sky-color-2: #67B7FF;
+            --sky-color-3: #87CEEB;
+        }
+
+        .sky-afternoon-clear {
+            --sky-color-1: #FFB347;
+            --sky-color-2: #FFDAB9;
+            --sky-color-3: #FFF8DC;
+        }
+
+        .sky-sunset-clear {
+            --sky-color-1: #FF6B6B;
+            --sky-color-2: #FF8E53;
+            --sky-color-3: #FF6B9D;
+        }
+
+        .sky-dusk-clear {
+            --sky-color-1: #483D8B;
+            --sky-color-2: #6A5ACD;
+            --sky-color-3: #8A2BE2;
+        }
+
+        .sky-night-clear {
+            --sky-color-1: #191970;
+            --sky-color-2: #2F2F4F;
+            --sky-color-3: #483D8B;
+        }
+
+        /* Cloudy variants */
+        .sky-cloudy {
+            --sky-color-1: #B0C4DE;
+            --sky-color-2: #D3D3D3;
+            --sky-color-3: #E6E6FA;
+        }
+
+        .sky-overcast {
+            --sky-color-1: #708090;
+            --sky-color-2: #A9A9A9;
+            --sky-color-3: #C0C0C0;
+        }
+
+        /* Rainy variants */
+        .sky-light-rain {
+            --sky-color-1: #778899;
+            --sky-color-2: #B0C4DE;
+            --sky-color-3: #D3D3D3;
+        }
+
+        .sky-heavy-rain {
+            --sky-color-1: #2F4F4F;
+            --sky-color-2: #696969;
+            --sky-color-3: #808080;
+        }
+
+        /* Snowy variants */
+        .sky-snow {
+            --sky-color-1: #F0F8FF;
+            --sky-color-2: #F5F5F5;
+            --sky-color-3: #FFFFFF;
+        }
+
+        /* Foggy variants */
+        .sky-fog {
+            --sky-color-1: #D3D3D3;
+            --sky-color-2: #DCDCDC;
+            --sky-color-3: #F5F5F5;
+        }
+
+        /* Time-based weather variations */
+        /* Cloudy with time progression */
+        .sky-cloudy-dawn {
+            --sky-color-1: #F5B7B1;
+            --sky-color-2: #E8E8E8;
+            --sky-color-3: #F0F0F0;
+        }
+
+        .sky-cloudy-morning {
+            --sky-color-1: #AED6F1;
+            --sky-color-2: #D5DBDB;
+            --sky-color-3: #EAEDED;
+        }
+
+        .sky-cloudy-afternoon {
+            --sky-color-1: #F9E79F;
+            --sky-color-2: #D5D8DC;
+            --sky-color-3: #F8F9F9;
+        }
+
+        .sky-cloudy-sunset {
+            --sky-color-1: #F1948A;
+            --sky-color-2: #D5DBDB;
+            --sky-color-3: #EBEDEF;
+        }
+
+        .sky-cloudy-dusk {
+            --sky-color-1: #BB8FCE;
+            --sky-color-2: #CCD1D1;
+            --sky-color-3: #E5E7E9;
+        }
+
+        .sky-cloudy-night {
+            --sky-color-1: #5D6D7E;
+            --sky-color-2: #85929E;
+            --sky-color-3: #AEB6BF;
+        }
+
+        /* Rain with time variations */
+        .sky-light-rain-golden {
+            --sky-color-1: #A04000;
+            --sky-color-2: #8C7853;
+            --sky-color-3: #B7950B;
+        }
+
+        .sky-light-rain-dark {
+            --sky-color-1: #34495E;
+            --sky-color-2: #5D6D7E;
+            --sky-color-3: #85929E;
+        }
+
+        .sky-heavy-rain-night {
+            --sky-color-1: #1C2833;
+            --sky-color-2: #283747;
+            --sky-color-3: #34495E;
+        }
+
+        /* Thunderstorm - very dramatic */
+        .sky-thunderstorm {
+            --sky-color-1: #0F1419;
+            --sky-color-2: #1C2833;
+            --sky-color-3: #283747;
+        }
+
+        /* Snow with time variations */
+        .sky-snow-dawn {
+            --sky-color-1: #FADBD8;
+            --sky-color-2: #FBFCFC;
+            --sky-color-3: #FFFFFF;
+        }
+
+        .sky-snow-night {
+            --sky-color-1: #AEB6BF;
+            --sky-color-2: #D5DBDB;
+            --sky-color-3: #F8F9F9;
+        }
+
+        /* Fog with time variations */
+        .sky-fog-dawn {
+            --sky-color-1: #E8DAEF;
+            --sky-color-2: #F4F6F6;
+            --sky-color-3: #FDFEFE;
+        }
+
+        .sky-fog-night {
+            --sky-color-1: #85929E;
+            --sky-color-2: #AEB6BF;
+            --sky-color-3: #D5DBDB;
         }
 
         .container {
             text-align: center;
-            padding: 2rem;
-            max-width: 800px;
+            padding: 2.5rem;
+            max-width: 900px;
             position: relative;
             z-index: 2;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 24px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.15),
+                0 4px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
         }
 
         h1 {
             font-size: 56px;
             line-height: 1.07143;
             font-weight: 600;
-            letter-spacing: -0.005em;
-            margin-bottom: 0.5em;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.75em;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover h1 {
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
         }
 
         .timer {
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
+            gap: 1rem;
             flex-wrap: wrap;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
 
         .time-segment {
             display: flex;
             flex-direction: column;
             align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            padding: 1.25rem 1rem;
+            min-width: 90px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-segment::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .time-segment:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 
+                0 8px 24px rgba(0, 0, 0, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .time-segment:hover::before {
+            opacity: 1;
         }
 
         .time-value {
-            font-size: 48px;
-            font-weight: 400;
-            color: var(--primary-color);
+            font-size: 42px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.95);
             font-feature-settings: "tnum";
-            min-width: 80px;
-            transition: opacity 0.2s ease;
+            min-width: 70px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.5rem;
         }
 
         .time-value.updating {
-            opacity: 0.5;
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+
+        .time-segment:hover .time-value {
+            color: rgba(255, 255, 255, 1);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
         }
 
         .time-label {
-            font-size: 14px;
-            color: var(--secondary-color);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.5rem;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            line-height: 1.3;
+        }
+
+        .time-segment:hover .time-label {
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.1em;
         }
 
         .message {
-            font-size: 21px;
-            line-height: 1.381;
+            font-size: 20px;
+            line-height: 1.4;
             font-weight: 400;
-            letter-spacing: .011em;
-            color: var(--secondary-color);
-            margin-top: 2rem;
-            transition: opacity 0.2s ease-in-out;
+            letter-spacing: 0.01em;
+            color: rgba(255, 255, 255, 0.85);
+            margin-top: 2.5rem;
+            transition: all 0.3s ease-in-out;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            position: relative;
         }
+
+        .container:hover .message {
+            color: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Accessibility improvements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+            
+            .weather-layer {
+                display: none !important;
+            }
+
+            .weather-widget {
+                transition: none !important;
+                transform: none !important;
+            }
+
+            .weather-widget:hover {
+                transform: none !important;
+            }
+
+            .weather-loading {
+                animation: none !important;
+            }
+
+            .weather-widget:hover::after {
+                animation: none !important;
+                opacity: 1 !important;
+            }
+
+            .container {
+                transition: none !important;
+                transform: none !important;
+            }
+
+            .container:hover {
+                transform: none !important;
+            }
+
+            .time-segment {
+                transition: none !important;
+                transform: none !important;
+            }
+
+            .time-segment:hover {
+                transform: none !important;
+            }
+
+            .time-segment::before {
+                transition: none !important;
+            }
+
+            .time-value, .time-label, .message, h1 {
+                transition: none !important;
+                transform: none !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --primary-color: #0000ff;
+                --secondary-color: #000000;
+                --text-color: #000000;
+                --sky-color-1: #ffffff;
+                --sky-color-2: #ffffff;
+                --sky-color-3: #ffffff;
+            }
+        }
+
+
+
+        /* Focus management */
+        .timer:focus-within {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+
+
 
         @media (max-width: 900px) {
             .container {
-                padding: 1.5rem;
-                max-width: 600px;
+                padding: 2rem;
+                max-width: 700px;
+                margin: 1rem;
             }
-
+            
             h1 {
                 font-size: 48px;
             }
 
-            .time-value {
-                font-size: 40px;
-                min-width: 70px;
-            }
-        }
-
-        @media (max-width: 734px) {
-            h1 {
-                font-size: 36px;
-            }
-
             .timer {
                 gap: 0.8rem;
-            }
-
-            .time-value {
-                font-size: 32px;
-                min-width: 60px;
-            }
-
-            .time-label {
-                font-size: 12px;
-            }
-
-            .message {
-                font-size: 16px;
-                padding: 0 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.5rem;
-            }
-
-            h1 {
-                font-size: 32px;
-                margin-bottom: 1rem;
-            }
-
-            .timer {
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
+                margin: 2rem 0;
             }
 
             .time-segment {
-                flex: 0 0 100%;
-                margin-bottom: 1rem;
+                padding: 1rem 0.8rem;
+                min-width: 80px;
             }
 
             .time-value {
-                font-size: 28px;
-                min-width: 50px;
+                font-size: 36px;
+                min-width: 60px;
             }
 
             .time-label {
@@ -236,8 +700,130 @@
             }
 
             .message {
-                font-size: 14px;
-                margin-top: 1rem;
+                font-size: 18px;
+                padding: 0.8rem 1.5rem;
+                margin-top: 2rem;
+            }
+
+            .weather-widget {
+                top: 1.5rem;
+                right: 1.5rem;
+                padding: 0.8rem 1rem;
+                min-width: 110px;
+            }
+
+            .weather-temp {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 734px) {
+            .container {
+                padding: 1.5rem;
+                margin: 0.5rem;
+            }
+
+            h1 { 
+                font-size: 36px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .timer {
+                gap: 0.6rem;
+                margin: 1.5rem 0;
+            }
+
+            .time-segment {
+                padding: 0.8rem 0.6rem;
+                min-width: 70px;
+                border-radius: 12px;
+            }
+
+            .time-value { 
+                font-size: 28px; 
+                min-width: 50px;
+                margin-bottom: 0.3rem;
+            }
+
+            .time-label {
+                font-size: 10px;
+                letter-spacing: 0.06em;
+            }
+
+            .message { 
+                font-size: 16px;
+                padding: 0.8rem 1rem;
+                margin-top: 1.5rem;
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+                margin: 0.5rem;
+                border-radius: 20px;
+            }
+
+            h1 { 
+                font-size: 32px;
+                margin-bottom: 0.75rem;
+            }
+
+            .timer {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+                margin: 1.5rem 0;
+            }
+
+            .time-segment {
+                width: 100%;
+                max-width: 200px;
+                padding: 1rem;
+                border-radius: 12px;
+            }
+
+            .time-value { 
+                font-size: 32px;
+                min-width: auto;
+                margin-bottom: 0.4rem;
+            }
+
+            .time-label {
+                font-size: 11px;
+                letter-spacing: 0.08em;
+            }
+
+            .message {
+                font-size: 15px;
+                margin-top: 1.5rem;
+                padding: 1rem;
+                border-radius: 12px;
+            }
+
+            .weather-widget {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.6rem 0.8rem;
+                min-width: 100px;
+                border-radius: 12px;
+            }
+
+            .weather-location {
+                font-size: 0.65rem;
+            }
+
+            .weather-temp {
+                font-size: 1.2rem;
+            }
+
+            .weather-condition {
+                font-size: 0.65rem;
+            }
+
+            .weather-condition::before {
+                font-size: 1rem;
             }
         }
 
@@ -284,44 +870,936 @@
         /* Handle larger screens */
         @media (min-width: 1200px) {
             .container {
-                max-width: 1000px;
+                max-width: 1100px;
+                padding: 3rem;
             }
 
             h1 {
                 font-size: 64px;
+                margin-bottom: 1rem;
+            }
+
+            .timer {
+                gap: 1.5rem;
+                margin: 3rem 0;
+            }
+
+            .time-segment {
+                padding: 1.5rem 1.25rem;
+                min-width: 110px;
+                border-radius: 20px;
             }
 
             .time-value {
-                font-size: 56px;
-                min-width: 100px;
+                font-size: 52px;
+                min-width: 90px;
+                margin-bottom: 0.6rem;
             }
 
             .time-label {
-                font-size: 16px;
+                font-size: 14px;
+                letter-spacing: 0.1em;
             }
 
             .message {
                 font-size: 24px;
+                margin-top: 3rem;
+                padding: 1.5rem 2.5rem;
+                border-radius: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="water-fill" id="water-fill">
-        <div class="wave wave1"></div>
-        <div class="wave wave2"></div>
-        <div class="wave wave3"></div>
+    <!-- Dynamic weather animation layers -->
+    <!-- Modern 2025 Weather System -->
+    <canvas id="weather-canvas"></canvas>
+    <div class="lightning-flash" id="lightning-flash"></div>
+    
+    <!-- Data-Driven Weather Widget -->
+    <div class="weather-widget" id="weather-widget" role="complementary" aria-label="Current weather data for Haifa">
+        <div class="weather-loading" id="weather-loading">📊</div>
+        <div class="weather-content" id="weather-content" style="display: none;">
+            <div class="weather-location">🇮🇱 HAIFA</div>
+            <div class="weather-temp" id="weather-temp">--°</div>
+            <div class="weather-data-row">
+                <span class="weather-data-label">Wind</span>
+                <span class="weather-data-value">
+                    <span id="weather-wind">--</span> km/h
+                    <span class="weather-wind-indicator" id="weather-wind-dir"></span>
+                </span>
+            </div>
+            <div class="weather-data-row">
+                <span class="weather-data-label">Humidity</span>
+                <span class="weather-data-value"><span id="weather-humidity">--</span>%</span>
+            </div>
+            <div class="weather-data-row">
+                <span class="weather-data-label">WMO</span>
+                <span class="weather-data-value" id="weather-code">--</span>
+            </div>
+            <div class="weather-intensity-bar">
+                <div class="weather-intensity-fill" id="weather-intensity" style="width: 0%"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-        <h1>Lev Altman</h1>
-        <div class="timer" id="timer"></div>
-        <div class="message">Growing stronger every second</div>
-    </div>
+    <main class="container">
+        <header>
+            <h1>Lev Altman</h1>
+            <p class="sr-only">A live timer showing the time elapsed since Lev's birth on January 26, 2026</p>
+        </header>
+        
+        <section aria-live="polite" aria-atomic="true">
+            <h2 class="sr-only">Time Elapsed</h2>
+            <div class="timer" 
+                 id="timer" 
+                 role="timer" 
+                 aria-label="Time since birth"
+                 tabindex="0">
+                <div class="loading" aria-hidden="true">Loading...</div>
+            </div>
+        </section>
+        
+        <aside aria-live="polite" aria-atomic="false">
+            <h2 class="sr-only">Current Milestone</h2>
+            <div class="message" id="message" role="status">Growing stronger every second</div>
+        </aside>
+        
+        <!-- Loading and error states -->
+        <div id="error-message" class="sr-only" role="alert" aria-live="assertive"></div>
+        
+        <!-- Progress indicator for screen readers -->
+        <div class="sr-only">
+            <span id="progress-text">Progress through first 18 years: </span>
+            <span id="progress-value" aria-live="polite">0%</span>
+        </div>
+    </main>
 
     <script>
-        const birthDate = new Date('2026-01-26T19:51:00.000Z');
-        const eighteenYears = new Date('2044-01-26T19:51:00.000Z');
+        // Constants
+        const CONSTANTS = {
+            BIRTH_DATE: '2026-01-26T17:51:00.000Z',
+            EIGHTEEN_YEARS_DATE: '2044-01-26T17:51:00.000Z',
+            MILLISECONDS_IN_SECOND: 1000,
+            MILLISECONDS_IN_MINUTE: 1000 * 60,
+            MILLISECONDS_IN_HOUR: 1000 * 60 * 60,
+            MILLISECONDS_IN_DAY: 1000 * 60 * 60 * 24,
+            UPDATE_INTERVAL: 1000,
+            MESSAGE_TRANSITION_DELAY: 200,
+            
+            // Weather and location constants
+            HAIFA_LAT: 32.7940,
+            HAIFA_LON: 34.9896,
+            HAIFA_TIMEZONE: 'Asia/Jerusalem',
+            WEATHER_UPDATE_INTERVAL: 10 * 60 * 1000, // 10 minutes
+            
+            // Free weather service (no API key required)
+            WEATHER_API_URL: 'https://api.open-meteo.com/v1/forecast'
+        };
+
+        // Global state
+        const state = {
+            birthDate: null,
+            eighteenYears: null,
+            timerInterval: null,
+            weatherInterval: null,
+            lightningInterval: null,
+            isHidden: false,
+            lastMessage: '',
+            hasError: false,
+            currentWeather: null,
+            previousWeather: null,
+            weatherTransitionStart: 0,
+            lastWeatherUpdate: 0,
+            currentSkyClass: '',
+            lastWeatherCondition: '',
+            lastTimeOfDay: null,
+            weatherSystem: null
+        };
+
+        // Initialize dates with error handling
+        function initializeDates() {
+            try {
+                state.birthDate = new Date(CONSTANTS.BIRTH_DATE);
+                state.eighteenYears = new Date(CONSTANTS.EIGHTEEN_YEARS_DATE);
+                
+                if (isNaN(state.birthDate.getTime()) || isNaN(state.eighteenYears.getTime())) {
+                    throw new Error('Invalid date configuration');
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Failed to initialize dates:', error);
+                showError('Failed to load timer configuration');
+                return false;
+            }
+        }
+
+        // Error handling
+        function showError(message) {
+            state.hasError = true;
+            const errorElement = document.getElementById('error-message');
+            const timerElement = document.getElementById('timer');
+            const messageElement = document.getElementById('message');
+            
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.remove('sr-only');
+            }
+            
+            if (timerElement) {
+                timerElement.innerHTML = '<div class="time-segment"><span class="time-value">Error</span><span class="time-label">Please refresh</span></div>';
+            }
+            
+            if (messageElement) {
+                messageElement.textContent = 'Something went wrong';
+            }
+        }
+
+        // Page visibility handling
+        function handleVisibilityChange() {
+            if (document.hidden) {
+                state.isHidden = true;
+                if (state.timerInterval) clearInterval(state.timerInterval);
+                if (state.weatherInterval) clearInterval(state.weatherInterval);
+                if (state.weatherSystem) {
+                    state.weatherSystem.stop();
+                }
+            } else {
+                state.isHidden = false;
+                if (state.weatherSystem) {
+                    state.weatherSystem.start();
+                }
+                startTimers();
+            }
+        }
+
+        // Weather and sky gradient functions
+        async function fetchWeatherData() {
+            try {
+                // Fetch extended weather data including humidity and pressure
+                const url = `${CONSTANTS.WEATHER_API_URL}?latitude=${CONSTANTS.HAIFA_LAT}&longitude=${CONSTANTS.HAIFA_LON}&current=temperature_2m,relative_humidity_2m,weathercode,windspeed_10m,winddirection_10m,surface_pressure&timezone=${CONSTANTS.HAIFA_TIMEZONE}`;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Weather API error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Store previous weather for interpolation
+                if (state.currentWeather) {
+                    state.previousWeather = {...state.currentWeather};
+                }
+
+                // Map new API format to enhanced weather data
+                state.currentWeather = {
+                    temperature: data.current.temperature_2m,
+                    humidity: data.current.relative_humidity_2m,
+                    pressure: data.current.surface_pressure,
+                    weathercode: data.current.weathercode,
+                    windspeed: data.current.windspeed_10m,
+                    winddirection: data.current.winddirection_10m,
+                    time: data.current.time
+                };
+
+                state.lastWeatherUpdate = Date.now();
+                state.weatherTransitionStart = Date.now();
+
+                console.log('📊 Weather data updated:', state.currentWeather);
+                updateSkyGradient();
+                updateWeatherWidget();
+
+            } catch (error) {
+                console.error('Failed to fetch weather data:', error);
+                // Fallback to time-based sky without weather
+                updateSkyGradient();
+                updateWeatherWidget(); // Show error state in widget
+            }
+        }
+
+        // Data-driven color mapping utilities
+        function lerp(start, end, t) {
+            return start + (end - start) * Math.max(0, Math.min(1, t));
+        }
+
+        function lerpColor(color1, color2, t) {
+            // Parse hex colors
+            const r1 = parseInt(color1.slice(1, 3), 16);
+            const g1 = parseInt(color1.slice(3, 5), 16);
+            const b1 = parseInt(color1.slice(5, 7), 16);
+
+            const r2 = parseInt(color2.slice(1, 3), 16);
+            const g2 = parseInt(color2.slice(3, 5), 16);
+            const b2 = parseInt(color2.slice(5, 7), 16);
+
+            const r = Math.round(lerp(r1, r2, t));
+            const g = Math.round(lerp(g1, g2, t));
+            const b = Math.round(lerp(b1, b2, t));
+
+            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+        }
+
+        function temperatureToColor(temp) {
+            // Temperature to color mapping
+            // -10°C = Deep blue, 0°C = Cyan, 15°C = Green, 25°C = Yellow, 35°C = Orange, 45°C = Red
+            const tempStops = [
+                { temp: -10, color: '#0066CC' },  // Deep blue
+                { temp: 0,   color: '#00AADD' },  // Cyan-blue
+                { temp: 10,  color: '#00CCAA' },  // Teal
+                { temp: 20,  color: '#88DD88' },  // Light green
+                { temp: 25,  color: '#DDDD66' },  // Yellow
+                { temp: 30,  color: '#FFAA44' },  // Orange
+                { temp: 40,  color: '#FF6644' },  // Red-orange
+                { temp: 50,  color: '#DD3333' }   // Red
+            ];
+
+            // Find the two stops to interpolate between
+            for (let i = 0; i < tempStops.length - 1; i++) {
+                if (temp <= tempStops[i + 1].temp) {
+                    const t = (temp - tempStops[i].temp) / (tempStops[i + 1].temp - tempStops[i].temp);
+                    return lerpColor(tempStops[i].color, tempStops[i + 1].color, t);
+                }
+            }
+
+            // Return edge cases
+            if (temp <= tempStops[0].temp) return tempStops[0].color;
+            return tempStops[tempStops.length - 1].color;
+        }
+
+        function getWeatherIntensity(weatherCode) {
+            // Map WMO weather codes to 0-100 intensity scale
+            if (weatherCode === 0) return 0;           // Clear
+            if (weatherCode <= 3) return 15;           // Partly cloudy
+            if (weatherCode <= 48) return 35;          // Fog
+            if (weatherCode <= 57) return 45;          // Drizzle
+            if (weatherCode <= 67) return 65;          // Rain
+            if (weatherCode <= 77) return 70;          // Snow
+            if (weatherCode <= 86) return 85;          // Showers
+            if (weatherCode >= 95) return 100;         // Thunderstorm
+            return 50; // fallback
+        }
+
+        function getTimeOfDay() {
+            try {
+                const now = new Date();
+                const haifaTime = new Intl.DateTimeFormat('en-US', {
+                    timeZone: CONSTANTS.HAIFA_TIMEZONE,
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    hour12: false
+                }).format(now);
+
+                const [hours, minutes] = haifaTime.split(':').map(Number);
+                const totalMinutes = hours * 60 + minutes;
+
+                let timeOfDay;
+                // Define time periods in minutes from midnight
+                if (totalMinutes >= 300 && totalMinutes < 420) timeOfDay = 'dawn';      // 5:00-7:00
+                else if (totalMinutes >= 420 && totalMinutes < 600) timeOfDay = 'morning';   // 7:00-10:00
+                else if (totalMinutes >= 600 && totalMinutes < 900) timeOfDay = 'noon';      // 10:00-15:00
+                else if (totalMinutes >= 900 && totalMinutes < 1080) timeOfDay = 'afternoon'; // 15:00-18:00
+                else if (totalMinutes >= 1080 && totalMinutes < 1200) timeOfDay = 'sunset';   // 18:00-20:00
+                else if (totalMinutes >= 1200 && totalMinutes < 1320) timeOfDay = 'dusk';     // 20:00-22:00
+                else timeOfDay = 'night'; // 22:00-5:00
+
+                // Debug logging to track time changes
+                if (state.lastTimeOfDay !== timeOfDay) {
+                    console.log(`⏰ Time period changed: ${state.lastTimeOfDay || 'unknown'} → ${timeOfDay} (${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} Haifa time)`);
+                    state.lastTimeOfDay = timeOfDay;
+                }
+
+                return timeOfDay;
+
+            } catch (error) {
+                console.error('Error getting time of day:', error);
+                return 'morning'; // fallback
+            }
+        }
+
+        function getWeatherCondition() {
+            if (!state.currentWeather) return 'clear';
+            
+            const weatherCode = state.currentWeather.weathercode;
+            
+            // WMO Weather interpretation codes with enhanced detection
+            if (weatherCode === 0) return 'clear';                    // Clear sky
+            if (weatherCode <= 3) return 'cloudy';                    // Partly cloudy
+            if (weatherCode <= 48) return 'fog';                      // Fog
+            if (weatherCode <= 67) return 'light-rain';               // Light rain/drizzle
+            if (weatherCode <= 77) return 'heavy-rain';               // Heavy rain
+            if (weatherCode <= 86) return 'snow';                     // Snow
+            if (weatherCode >= 95) return 'thunderstorm';             // Thunderstorm
+            if (weatherCode <= 99) return 'heavy-rain';               // Other rain
+            
+            return 'clear'; // fallback
+        }
+
+        function getWeatherDisplay(weatherCode) {
+            // Convert WMO weather codes to display info
+            const weatherMap = {
+                0: { text: 'Clear Sky', icon: '☀️' },
+                1: { text: 'Mainly Clear', icon: '🌤️' },
+                2: { text: 'Partly Cloudy', icon: '⛅' },
+                3: { text: 'Overcast', icon: '☁️' },
+                45: { text: 'Fog', icon: '🌫️' },
+                48: { text: 'Rime Fog', icon: '🌫️' },
+                51: { text: 'Light Drizzle', icon: '🌦️' },
+                53: { text: 'Drizzle', icon: '🌦️' },
+                55: { text: 'Dense Drizzle', icon: '🌧️' },
+                56: { text: 'Freezing Drizzle', icon: '🌨️' },
+                57: { text: 'Dense Freezing Drizzle', icon: '🌨️' },
+                61: { text: 'Slight Rain', icon: '🌧️' },
+                63: { text: 'Moderate Rain', icon: '🌧️' },
+                65: { text: 'Heavy Rain', icon: '🌧️' },
+                66: { text: 'Freezing Rain', icon: '🌨️' },
+                67: { text: 'Heavy Freezing Rain', icon: '🌨️' },
+                71: { text: 'Slight Snow', icon: '🌨️' },
+                73: { text: 'Moderate Snow', icon: '❄️' },
+                75: { text: 'Heavy Snow', icon: '❄️' },
+                77: { text: 'Snow Grains', icon: '🌨️' },
+                80: { text: 'Slight Showers', icon: '🌦️' },
+                81: { text: 'Moderate Showers', icon: '🌧️' },
+                82: { text: 'Violent Showers', icon: '🌧️' },
+                85: { text: 'Slight Snow Showers', icon: '🌨️' },
+                86: { text: 'Heavy Snow Showers', icon: '❄️' },
+                95: { text: 'Thunderstorm', icon: '⛈️' },
+                96: { text: 'Thunderstorm w/ Hail', icon: '⛈️' },
+                99: { text: 'Heavy Thunderstorm w/ Hail', icon: '⛈️' }
+            };
+
+            return weatherMap[weatherCode] || { text: 'Unknown', icon: '🌈' };
+        }
+
+        function updateWeatherWidget() {
+            const widget = document.getElementById('weather-widget');
+            const loading = document.getElementById('weather-loading');
+            const content = document.getElementById('weather-content');
+            const tempElement = document.getElementById('weather-temp');
+            const windElement = document.getElementById('weather-wind');
+            const windDirElement = document.getElementById('weather-wind-dir');
+            const humidityElement = document.getElementById('weather-humidity');
+            const codeElement = document.getElementById('weather-code');
+            const intensityElement = document.getElementById('weather-intensity');
+
+            try {
+                if (!state.currentWeather) {
+                    // Show loading state
+                    loading.style.display = 'block';
+                    content.style.display = 'none';
+                    widget.classList.remove('loaded');
+                    return;
+                }
+
+                const weather = state.currentWeather;
+                const intensity = getWeatherIntensity(weather.weathercode);
+
+                // Update temperature
+                const temp = Math.round(weather.temperature);
+                tempElement.textContent = `${temp}°C`;
+
+                // Update wind
+                const windSpeed = Math.round(weather.windspeed);
+                windElement.textContent = windSpeed;
+
+                // Update wind direction indicator
+                if (windDirElement) {
+                    windDirElement.style.setProperty('--wind-direction', `${weather.winddirection}deg`);
+                    windDirElement.querySelector('::after')?.style.setProperty(
+                        'transform',
+                        `translate(-50%, -50%) rotate(${weather.winddirection}deg)`
+                    );
+                    // Update CSS transform directly
+                    const style = document.createElement('style');
+                    style.textContent = `#weather-wind-dir::after { transform: translate(-50%, -50%) rotate(${weather.winddirection}deg) !important; }`;
+                    document.head.appendChild(style);
+                }
+
+                // Update humidity
+                humidityElement.textContent = Math.round(weather.humidity);
+
+                // Update WMO code
+                codeElement.textContent = weather.weathercode;
+
+                // Update intensity bar
+                intensityElement.style.width = `${intensity}%`;
+
+                // Show content and hide loading
+                loading.style.display = 'none';
+                content.style.display = 'block';
+                widget.classList.add('loaded');
+
+                console.log(`📊 Widget updated: ${temp}°C, wind ${windSpeed}km/h @ ${weather.winddirection}°, intensity ${intensity}%`);
+
+            } catch (error) {
+                console.error('Error updating weather widget:', error);
+
+                // Show error state
+                loading.style.display = 'none';
+                content.style.display = 'block';
+                tempElement.textContent = '--°';
+                windElement.textContent = '--';
+                humidityElement.textContent = '--';
+                codeElement.textContent = '--';
+                intensityElement.style.width = '0%';
+                widget.classList.add('loaded');
+            }
+        }
+
+        // Modern 2025 Weather System - Canvas-based particle physics
+        class WeatherSystem {
+            constructor() {
+                this.canvas = document.getElementById('weather-canvas');
+                this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
+                this.particles = [];
+                this.cloudParticles = [];
+                this.windParticles = [];
+                this.animationId = null;
+                this.currentWeather = 'clear';
+                this.lightningFlash = document.getElementById('lightning-flash');
+                this.lightningInterval = null;
+                
+                if (this.canvas && this.ctx) {
+                    this.setupCanvas();
+                    this.start();
+                }
+            }
+
+            setupCanvas() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+                
+                // Enable hardware acceleration
+                this.ctx.imageSmoothingEnabled = true;
+                this.ctx.imageSmoothingQuality = 'high';
+            }
+
+            resizeCanvas() {
+                if (!this.canvas) return;
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            start() {
+                if (!this.animationId) {
+                    this.animate();
+                }
+            }
+
+            stop() {
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                    this.animationId = null;
+                }
+                this.stopLightning();
+            }
+
+            updateWeatherData(weatherData) {
+                // Data-driven weather rendering
+                const { intensity, windDirection, windSpeed, humidity, weatherCode } = weatherData;
+
+                this.stopLightning();
+                this.clearParticles();
+
+                // Show canvas for any weather effects
+                if (intensity > 5) {
+                    this.canvas.classList.add('active');
+                } else {
+                    this.canvas.classList.remove('active');
+                }
+
+                console.log(`📊 Weather system updated: intensity=${intensity}%, wind=${windSpeed}km/h @ ${windDirection}°`);
+
+                // Determine particle type based on weather code
+                const isRain = weatherCode >= 51 && weatherCode <= 82;
+                const isSnow = weatherCode >= 71 && weatherCode <= 86 && weatherCode !== 80 && weatherCode !== 81 && weatherCode !== 82;
+                const isFog = weatherCode >= 45 && weatherCode <= 48;
+                const isThunderstorm = weatherCode >= 95;
+
+                // Calculate particle counts based on intensity
+                const baseParticleCount = Math.round(intensity * 5); // 0-500 particles
+
+                if (isThunderstorm) {
+                    // Thunderstorm: heavy rain + clouds + lightning
+                    this.createRain(Math.max(400, baseParticleCount), 'heavy', windDirection, windSpeed);
+                    this.createClouds(Math.round(intensity / 5));
+                    this.createWind(Math.round(windSpeed / 2), windDirection);
+                    this.startLightning();
+                } else if (isRain) {
+                    // Rain: intensity determines count and style
+                    const rainIntensity = intensity > 70 ? 'heavy' : 'light';
+                    this.createRain(baseParticleCount, rainIntensity, windDirection, windSpeed);
+                    this.createClouds(Math.round(intensity / 10));
+                    if (windSpeed > 10) {
+                        this.createWind(Math.round(windSpeed / 2), windDirection);
+                    }
+                } else if (isSnow) {
+                    // Snow: based on intensity
+                    this.createSnow(Math.max(100, baseParticleCount), windDirection, windSpeed);
+                    this.createClouds(Math.round(intensity / 8));
+                } else if (isFog) {
+                    // Fog: humidity affects density
+                    const fogCount = Math.round((humidity / 100) * 150);
+                    this.createFog(fogCount);
+                } else if (intensity > 10) {
+                    // Cloudy: show clouds based on intensity
+                    this.createClouds(Math.round(intensity / 10));
+                    if (windSpeed > 5) {
+                        this.createWind(Math.round(windSpeed / 3), windDirection);
+                    }
+                } else if (windSpeed > 10) {
+                    // Clear with wind
+                    this.createWind(Math.round(windSpeed / 4), windDirection);
+                }
+            }
+
+            clearParticles() {
+                this.particles = [];
+                this.cloudParticles = [];
+                this.windParticles = [];
+            }
+
+            createRain(count, intensity, windDirection, windSpeed) {
+                // Convert wind direction to angle (wind FROM direction, so we add 180)
+                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
+                const windInfluence = windSpeed / 50; // Scale wind speed to visual angle
+
+                for (let i = 0; i < count; i++) {
+                    this.particles.push({
+                        type: 'rain',
+                        x: Math.random() * (this.canvas.width + 200) - 100,
+                        y: Math.random() * this.canvas.height - this.canvas.height,
+                        speed: intensity === 'heavy' ? 8 + Math.random() * 4 : 5 + Math.random() * 3,
+                        length: intensity === 'heavy' ? 15 + Math.random() * 10 : 8 + Math.random() * 6,
+                        opacity: intensity === 'heavy' ? 0.6 + Math.random() * 0.4 : 0.3 + Math.random() * 0.4,
+                        angle: Math.sin(windAngle) * windInfluence + (Math.random() * 0.2 - 0.1)
+                    });
+                }
+            }
+
+            createSnow(count, windDirection, windSpeed) {
+                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
+                const windInfluence = windSpeed / 80; // Snow drifts more slowly
+
+                for (let i = 0; i < count; i++) {
+                    this.particles.push({
+                        type: 'snow',
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height - this.canvas.height,
+                        speed: 1 + Math.random() * 2,
+                        size: 2 + Math.random() * 4,
+                        opacity: 0.6 + Math.random() * 0.4,
+                        drift: Math.sin(windAngle) * windInfluence + (Math.random() * 0.3 - 0.15),
+                        rotation: Math.random() * Math.PI * 2,
+                        rotationSpeed: (Math.random() - 0.5) * 0.02
+                    });
+                }
+            }
+
+            createClouds(count) {
+                for (let i = 0; i < count; i++) {
+                    this.cloudParticles.push({
+                        x: Math.random() * (this.canvas.width + 400) - 200,
+                        y: Math.random() * this.canvas.height * 0.6,
+                        size: 60 + Math.random() * 120,
+                        speed: 0.2 + Math.random() * 0.5,
+                        opacity: 0.1 + Math.random() * 0.3,
+                        blur: 20 + Math.random() * 40
+                    });
+                }
+            }
+
+            createWind(count, windDirection) {
+                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
+                const dx = Math.cos(windAngle);
+                const dy = Math.sin(windAngle);
+
+                for (let i = 0; i < count; i++) {
+                    // Start particles off-screen in the direction opposite to wind
+                    const startX = dx < 0 ? this.canvas.width + 50 : -50;
+                    const startY = Math.random() * this.canvas.height;
+
+                    this.windParticles.push({
+                        x: startX,
+                        y: startY,
+                        dx: dx,
+                        dy: dy,
+                        speed: 2 + Math.random() * 3,
+                        length: 30 + Math.random() * 50,
+                        opacity: 0.1 + Math.random() * 0.2,
+                        wave: Math.random() * Math.PI * 2,
+                        waveSpeed: 0.02 + Math.random() * 0.03
+                    });
+                }
+            }
+
+            createFog(count) {
+                for (let i = 0; i < count; i++) {
+                    this.cloudParticles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: this.canvas.height * 0.3 + Math.random() * this.canvas.height * 0.7,
+                        size: 100 + Math.random() * 200,
+                        speed: 0.1 + Math.random() * 0.3,
+                        opacity: 0.05 + Math.random() * 0.15,
+                        blur: 50 + Math.random() * 100
+                    });
+                }
+            }
+
+            startLightning() {
+                this.lightningInterval = setInterval(() => {
+                    if (Math.random() < 0.25) {
+                        this.triggerLightning();
+                        
+                        // Double flash
+                        if (Math.random() < 0.4) {
+                            setTimeout(() => this.triggerLightning(), 100 + Math.random() * 100);
+                        }
+                    }
+                }, 4000 + Math.random() * 8000);
+            }
+
+            stopLightning() {
+                if (this.lightningInterval) {
+                    clearInterval(this.lightningInterval);
+                    this.lightningInterval = null;
+                }
+            }
+
+            triggerLightning() {
+                if (!this.lightningFlash) return;
+                
+                // Random lightning position
+                const x = 30 + Math.random() * 40;
+                const y = 10 + Math.random() * 20;
+                
+                this.lightningFlash.style.setProperty('--lightning-x', `${x}%`);
+                this.lightningFlash.style.setProperty('--lightning-y', `${y}%`);
+                
+                this.lightningFlash.classList.remove('active');
+                void this.lightningFlash.offsetWidth; // Force reflow
+                this.lightningFlash.classList.add('active');
+                
+                setTimeout(() => {
+                    this.lightningFlash.classList.remove('active');
+                }, 150);
+            }
+
+            animate() {
+                if (!this.ctx || !this.canvas) return;
+                
+                // Respect reduced motion preferences
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    return;
+                }
+                
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw clouds with soft blur
+                this.ctx.save();
+                this.cloudParticles.forEach(cloud => {
+                    this.ctx.globalAlpha = cloud.opacity;
+                    this.ctx.filter = `blur(${cloud.blur}px)`;
+                    this.ctx.fillStyle = '#ffffff';
+                    this.ctx.beginPath();
+                    this.ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    
+                    cloud.x += cloud.speed;
+                    if (cloud.x > this.canvas.width + 200) {
+                        cloud.x = -200;
+                        cloud.y = Math.random() * this.canvas.height * 0.6;
+                    }
+                });
+                this.ctx.restore();
+
+                // Draw wind particles
+                this.windParticles.forEach(wind => {
+                    this.ctx.globalAlpha = wind.opacity;
+                    this.ctx.strokeStyle = '#ffffff';
+                    this.ctx.lineWidth = 1;
+                    this.ctx.lineCap = 'round';
+
+                    const waveOffset = Math.sin(wind.wave) * 20;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(wind.x, wind.y + waveOffset);
+                    this.ctx.lineTo(
+                        wind.x + wind.length * wind.dx,
+                        wind.y + waveOffset + wind.length * wind.dy
+                    );
+                    this.ctx.stroke();
+
+                    // Move in wind direction
+                    wind.x += wind.speed * wind.dx;
+                    wind.y += wind.speed * wind.dy;
+                    wind.wave += wind.waveSpeed;
+
+                    // Reset when off-screen
+                    if (wind.x < -100 || wind.x > this.canvas.width + 100 ||
+                        wind.y < -100 || wind.y > this.canvas.height + 100) {
+                        const startX = wind.dx < 0 ? this.canvas.width + 50 : -50;
+                        wind.x = startX;
+                        wind.y = Math.random() * this.canvas.height;
+                        wind.wave = Math.random() * Math.PI * 2;
+                    }
+                });
+
+                // Draw rain and snow particles
+                this.particles.forEach(particle => {
+                    this.ctx.globalAlpha = particle.opacity;
+                    
+                    if (particle.type === 'rain') {
+                        this.ctx.strokeStyle = '#87CEEB';
+                        this.ctx.lineWidth = 1;
+                        this.ctx.lineCap = 'round';
+                        
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(particle.x, particle.y);
+                        this.ctx.lineTo(
+                            particle.x + particle.angle * particle.length, 
+                            particle.y + particle.length
+                        );
+                        this.ctx.stroke();
+                        
+                        particle.y += particle.speed;
+                        particle.x += particle.angle * 2;
+                        
+                    } else if (particle.type === 'snow') {
+                        this.ctx.fillStyle = '#ffffff';
+                        this.ctx.save();
+                        this.ctx.translate(particle.x, particle.y);
+                        this.ctx.rotate(particle.rotation);
+                        this.ctx.fillRect(-particle.size/2, -particle.size/2, particle.size, particle.size);
+                        this.ctx.restore();
+                        
+                        particle.y += particle.speed;
+                        particle.x += particle.drift * Math.sin(particle.y * 0.01);
+                        particle.rotation += particle.rotationSpeed;
+                    }
+                    
+                    // Reset particles when they fall off screen
+                    if (particle.y > this.canvas.height + 50) {
+                        particle.y = -50;
+                        particle.x = Math.random() * (this.canvas.width + 200) - 100;
+                    }
+                });
+                
+                this.ctx.globalAlpha = 1;
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+
+            destroy() {
+                this.stop();
+                this.clearParticles();
+                if (this.canvas) {
+                    this.canvas.classList.remove('active');
+                }
+            }
+        }
+
+        function getInterpolatedWeather() {
+            // Smoothly interpolate between previous and current weather over 60 seconds
+            if (!state.currentWeather) return null;
+            if (!state.previousWeather) return state.currentWeather;
+
+            const transitionDuration = 60000; // 60 seconds
+            const elapsed = Date.now() - state.weatherTransitionStart;
+            const t = Math.min(elapsed / transitionDuration, 1);
+
+            return {
+                temperature: lerp(state.previousWeather.temperature, state.currentWeather.temperature, t),
+                windspeed: lerp(state.previousWeather.windspeed, state.currentWeather.windspeed, t),
+                winddirection: lerp(state.previousWeather.winddirection, state.currentWeather.winddirection, t),
+                humidity: lerp(state.previousWeather.humidity, state.currentWeather.humidity, t),
+                weathercode: t < 0.5 ? state.previousWeather.weathercode : state.currentWeather.weathercode,
+                time: state.currentWeather.time
+            };
+        }
+
+        function updateSkyGradient() {
+            try {
+                const weather = getInterpolatedWeather();
+                if (!weather) {
+                    // Fallback to default gradient if no weather data
+                    return;
+                }
+
+                const timeOfDay = getTimeOfDay();
+                const temp = weather.temperature;
+                const intensity = getWeatherIntensity(weather.weathercode);
+
+                // Get base color from temperature
+                let baseColor = temperatureToColor(temp);
+
+                // Adjust for time of day (brightness modulation)
+                const timeAdjustment = getTimeAdjustment(timeOfDay);
+
+                // Adjust for weather intensity (desaturation for storms)
+                const intensityFactor = intensity / 100;
+
+                // Create gradient colors
+                const color1 = adjustColorBrightness(baseColor, timeAdjustment.top - intensityFactor * 0.4);
+                const color2 = adjustColorBrightness(baseColor, timeAdjustment.middle - intensityFactor * 0.3);
+                const color3 = adjustColorBrightness(baseColor, timeAdjustment.bottom - intensityFactor * 0.2);
+
+                // Apply gradient to body using CSS variables
+                document.documentElement.style.setProperty('--sky-color-1', color1);
+                document.documentElement.style.setProperty('--sky-color-2', color2);
+                document.documentElement.style.setProperty('--sky-color-3', color3);
+
+                // Only update weather system with actual current data (not interpolated)
+                // But do it less frequently to avoid jarring changes
+                if (state.weatherSystem && state.currentWeather) {
+                    const timeSinceUpdate = Date.now() - state.weatherTransitionStart;
+                    if (timeSinceUpdate < 100) { // Only on fresh weather data
+                        const weatherData = {
+                            intensity: intensity,
+                            windDirection: state.currentWeather.winddirection,
+                            windSpeed: state.currentWeather.windspeed,
+                            humidity: state.currentWeather.humidity,
+                            weatherCode: state.currentWeather.weathercode
+                        };
+                        state.weatherSystem.updateWeatherData(weatherData);
+                    }
+                }
+
+                // Less frequent logging
+                const elapsed = Date.now() - state.weatherTransitionStart;
+                if (elapsed < 2000) {
+                    console.log(`📊 Sky updated: ${temp.toFixed(1)}°C → ${baseColor}, intensity: ${intensity}%, time: ${timeOfDay}`);
+                }
+
+            } catch (error) {
+                console.error('Error updating sky gradient:', error);
+            }
+        }
+
+        function getTimeAdjustment(timeOfDay) {
+            // Returns brightness multipliers for gradient layers
+            const adjustments = {
+                'dawn':      { top: 0.9, middle: 0.95, bottom: 1.1 },
+                'morning':   { top: 1.0, middle: 1.0, bottom: 1.0 },
+                'noon':      { top: 1.1, middle: 1.05, bottom: 1.0 },
+                'afternoon': { top: 1.0, middle: 0.95, bottom: 0.9 },
+                'sunset':    { top: 0.8, middle: 0.85, bottom: 1.0 },
+                'dusk':      { top: 0.6, middle: 0.7, bottom: 0.8 },
+                'night':     { top: 0.4, middle: 0.5, bottom: 0.6 }
+            };
+            return adjustments[timeOfDay] || adjustments.morning;
+        }
+
+        function adjustColorBrightness(hexColor, factor) {
+            // Adjust brightness of hex color by factor (0-2, where 1 is unchanged)
+            const r = parseInt(hexColor.slice(1, 3), 16);
+            const g = parseInt(hexColor.slice(3, 5), 16);
+            const b = parseInt(hexColor.slice(5, 7), 16);
+
+            const newR = Math.max(0, Math.min(255, Math.round(r * factor)));
+            const newG = Math.max(0, Math.min(255, Math.round(g * factor)));
+            const newB = Math.max(0, Math.min(255, Math.round(b * factor)));
+
+            return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+        }
 
         function getAgeMessage(days) {
             if (days < 0) {
@@ -374,273 +1852,388 @@
             return currentPhase ? currentPhase.message : "Growing stronger every second";
         }
 
-        function updateTimer() {
-            const now = new Date();
-            const diff = now - birthDate;
-            const totalJourney = eighteenYears - birthDate;
-
-            // Update water fill
-            const progress = ((now - birthDate) / (eighteenYears - birthDate)) * 100;
-            const waterFill = document.getElementById('water-fill');
-            waterFill.style.height = `${Math.max(0, Math.min(progress, 100))}%`;
-
-            if (diff < 0) {
-                const countdown = Math.abs(diff);
-                const days = Math.floor(countdown / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((countdown % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((countdown % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((countdown % (1000 * 60)) / 1000);
-
-                document.getElementById('timer').innerHTML = getTimeHTML(days, hours, minutes, seconds, 'until arrival', false);
-            } else {
-                // Calculate years and remaining days
-                let years = now.getFullYear() - birthDate.getFullYear();
-                const birthDateThisYear = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-
-                // Adjust if birthday hasn't occurred this year
-                if (now < birthDateThisYear) {
-                    years--;
+        function calculateAccurateAge(birthDate, currentDate) {
+            try {
+                // Handle countdown case (before birth)
+                if (currentDate < birthDate) {
+                    const diff = birthDate - currentDate;
+                    const days = Math.floor(diff / CONSTANTS.MILLISECONDS_IN_DAY);
+                    const hours = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_DAY) / CONSTANTS.MILLISECONDS_IN_HOUR);
+                    const minutes = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_HOUR) / CONSTANTS.MILLISECONDS_IN_MINUTE);
+                    const seconds = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_MINUTE) / CONSTANTS.MILLISECONDS_IN_SECOND);
+                    
+                    return {
+                        isCountdown: true,
+                        years: 0,
+                        months: 0,
+                        days: days,
+                        hours: hours,
+                        minutes: minutes,
+                        seconds: seconds,
+                        totalDays: days
+                    };
                 }
-
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('timer').innerHTML = getTimeHTML(days, hours, minutes, seconds, 'of life', years);
+            } catch (error) {
+                console.error('Error in calculateAccurateAge countdown:', error);
+                throw error;
             }
 
-            const messageElement = document.querySelector('.message');
-            const newMessage = getAgeMessage(years ? days % 365 : days);
+            // Calculate years
+            let years = currentDate.getFullYear() - birthDate.getFullYear();
+            
+            // Create anniversary date for this year
+            let anniversaryThisYear = new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate(), 
+                                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
+            
+            // If anniversary hasn't occurred this year, subtract one year
+            if (currentDate < anniversaryThisYear) {
+                years--;
+                anniversaryThisYear = new Date(currentDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate(), 
+                                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
+            }
 
-            if (messageElement.dataset.lastMessage !== newMessage) {
-                messageElement.style.opacity = '0';
-                setTimeout(() => {
-                    messageElement.textContent = newMessage;
-                    messageElement.style.opacity = '1';
-                }, 200);
-                messageElement.dataset.lastMessage = newMessage;
+            // Calculate months from last anniversary
+            let months = currentDate.getMonth() - anniversaryThisYear.getMonth();
+            if (months < 0) {
+                months += 12;
+            }
+
+            // Create month anniversary date
+            let monthAnniversary = new Date(anniversaryThisYear);
+            monthAnniversary.setMonth(monthAnniversary.getMonth() + months);
+            
+            // Adjust for cases where the day doesn't exist in the target month (e.g., Jan 31 -> Feb 31)
+            if (monthAnniversary.getDate() !== birthDate.getDate()) {
+                monthAnniversary = new Date(monthAnniversary.getFullYear(), monthAnniversary.getMonth() + 1, 0, 
+                                           birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
+            }
+
+            // If current date is before month anniversary, subtract one month
+            if (currentDate < monthAnniversary) {
+                months--;
+                if (months < 0) {
+                    months = 11;
+                    years--;
+                    anniversaryThisYear = new Date(currentDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate(), 
+                                                  birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
+                }
+                monthAnniversary = new Date(anniversaryThisYear);
+                monthAnniversary.setMonth(monthAnniversary.getMonth() + months);
+                
+                // Handle day adjustment again
+                if (monthAnniversary.getDate() !== birthDate.getDate()) {
+                    monthAnniversary = new Date(monthAnniversary.getFullYear(), monthAnniversary.getMonth() + 1, 0, 
+                                               birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
+                }
+            }
+
+            // Calculate remaining days, hours, minutes, seconds
+            const remainingMs = currentDate - monthAnniversary;
+            const days = Math.floor(remainingMs / CONSTANTS.MILLISECONDS_IN_DAY);
+            const hours = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_DAY) / CONSTANTS.MILLISECONDS_IN_HOUR);
+            const minutes = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_HOUR) / CONSTANTS.MILLISECONDS_IN_MINUTE);
+            const seconds = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_MINUTE) / CONSTANTS.MILLISECONDS_IN_SECOND);
+
+            // Calculate total days for message system
+            const totalMs = currentDate - birthDate;
+            const totalDays = Math.floor(totalMs / CONSTANTS.MILLISECONDS_IN_DAY);
+
+            return {
+                isCountdown: false,
+                years: Math.max(0, years),
+                months: Math.max(0, months),
+                days: Math.max(0, days),
+                hours: Math.max(0, hours),
+                minutes: Math.max(0, minutes),
+                seconds: Math.max(0, seconds),
+                totalDays: totalDays
+            };
+        }
+
+        function updateTimer() {
+            if (state.hasError || state.isHidden) return;
+            
+            try {
+                const now = new Date();
+                
+                // Calculate accurate age
+                const age = calculateAccurateAge(state.birthDate, now);
+                
+                // Update timer display efficiently
+                updateTimerDisplay(age);
+                
+                // Update message with accurate day calculation
+                updateMessage(age.totalDays);
+                
+                // Update progress for screen readers
+                updateProgressForScreenReaders(now);
+                
+                // Update sky gradient based on current time (weather updates separately)
+                updateSkyGradient();
+                
+            } catch (error) {
+                console.error('Error in updateTimer:', error);
+                showError('Timer update failed');
             }
         }
 
-        function getTimeHTML(days, hours, minutes, seconds, suffix, years) {
-            const now = new Date();
+        function updateTimerDisplay(age) {
+            try {
+                const timerElement = document.getElementById('timer');
+                if (timerElement) {
+                    // Remove loading state
+                    const loadingElement = timerElement.querySelector('.loading');
+                    if (loadingElement) {
+                        loadingElement.remove();
+                    }
+                    
+                    // Only update if the content is different (performance optimization)
+                    const newHTML = getTimeHTML(age);
+                    if (timerElement.innerHTML !== newHTML) {
+                        timerElement.innerHTML = newHTML;
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating timer display:', error);
+            }
+        }
 
-            // Handle case when birth hasn't happened yet
-            if (now < birthDate) {
+        function updateMessage(totalDays) {
+            try {
+                const messageElement = document.getElementById('message');
+                if (messageElement) {
+                    const newMessage = getAgeMessage(totalDays);
+                    
+                    if (state.lastMessage !== newMessage) {
+                        messageElement.style.opacity = '0';
+                        setTimeout(() => {
+                            if (messageElement) {
+                                messageElement.textContent = newMessage;
+                                messageElement.style.opacity = '1';
+                                state.lastMessage = newMessage;
+                            }
+                        }, CONSTANTS.MESSAGE_TRANSITION_DELAY);
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating message:', error);
+            }
+        }
+
+        function updateProgressForScreenReaders(now) {
+            try {
+                const progressElement = document.getElementById('progress-value');
+                if (progressElement) {
+                    const totalJourney = state.eighteenYears - state.birthDate;
+                    const progress = ((now - state.birthDate) / totalJourney) * 100;
+                    const roundedProgress = Math.round(Math.max(0, Math.min(progress, 100)));
+                    progressElement.textContent = `${roundedProgress}%`;
+                }
+            } catch (error) {
+                console.error('Error updating progress for screen readers:', error);
+            }
+        }
+
+        function getTimeHTML(age) {
+            // Handle countdown case (before birth)
+            if (age.isCountdown) {
                 return `
                     <div class="time-segment">
-                        <span class="time-value">${days}</span>
-                        <span class="time-label">days ${suffix}</span>
+                        <span class="time-value">${age.days}</span>
+                        <span class="time-label">days until arrival</span>
                     </div>
                     <div class="time-segment">
-                        <span class="time-value">${String(hours).padStart(2, '0')}</span>
+                        <span class="time-value">${String(age.hours).padStart(2, '0')}</span>
                         <span class="time-label">hours</span>
                     </div>
                     <div class="time-segment">
-                        <span class="time-value">${String(minutes).padStart(2, '0')}</span>
+                        <span class="time-value">${String(age.minutes).padStart(2, '0')}</span>
                         <span class="time-label">minutes</span>
                     </div>
                     <div class="time-segment">
-                        <span class="time-value">${String(seconds).padStart(2, '0')}</span>
+                        <span class="time-value">${String(age.seconds).padStart(2, '0')}</span>
                         <span class="time-label">seconds</span>
                     </div>
                 `;
             }
 
-            // Function to calculate months between dates considering time of day
-            function getMonthsDiff(d1, d2) {
-                let months = (d2.getFullYear() - d1.getFullYear()) * 12 + (d2.getMonth() - d1.getMonth());
+            // Build the time display with accurate calculations
+            const segments = [];
 
-                // Get the day difference considering time of day
-                const d1Day = d1.getDate() + d1.getHours()/24 + d1.getMinutes()/(24*60) + d1.getSeconds()/(24*60*60);
-                const d2Day = d2.getDate() + d2.getHours()/24 + d2.getMinutes()/(24*60) + d2.getSeconds()/(24*60*60);
-
-                if (d2Day < d1Day) {
-                    months--;
-                }
-
-                return months;
+            // Add years if present
+            if (age.years > 0) {
+                segments.push(`
+                    <div class="time-segment">
+                        <span class="time-value">${age.years}</span>
+                        <span class="time-label">year${age.years > 1 ? 's' : ''} of life</span>
+                    </div>
+                `);
             }
 
-            // Calculate total months lived
-            const totalMonths = getMonthsDiff(birthDate, now);
-
-            // Calculate years and remaining months
-            const yearsLived = Math.floor(totalMonths / 12);
-            const monthsAfterYears = totalMonths % 12;
-
-            // Calculate remaining days
-            const lastMonthDate = new Date(now.getFullYear(), now.getMonth(), birthDate.getDate(),
-                                         birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds());
-            if (lastMonthDate > now) {
-                lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
+            // Add months if present
+            if (age.months > 0) {
+                const suffix = age.years > 0 ? '' : ' of life';
+                segments.push(`
+                    <div class="time-segment">
+                        <span class="time-value">${age.months}</span>
+                        <span class="time-label">month${age.months > 1 ? 's' : ''}${suffix}</span>
+                    </div>
+                `);
             }
-            const remainingDays = Math.floor((now - lastMonthDate) / (1000 * 60 * 60 * 24));
 
-            return `
-                ${yearsLived > 0 ? `
+            // Add days if present
+            if (age.days > 0) {
+                const suffix = (age.years === 0 && age.months === 0) ? ' of life' : '';
+                segments.push(`
+                    <div class="time-segment">
+                        <span class="time-value">${age.days}</span>
+                        <span class="time-label">day${age.days > 1 ? 's' : ''}${suffix}</span>
+                    </div>
+                `);
+            }
+
+            // Always show hours, minutes, and seconds
+            segments.push(`
                 <div class="time-segment">
-                    <span class="time-value">${yearsLived}</span>
-                    <span class="time-label">year${yearsLived > 1 ? 's' : ''} ${suffix}</span>
-                </div>
-                ` : ''}
-                ${monthsAfterYears > 0 ? `
-                <div class="time-segment">
-                    <span class="time-value">${monthsAfterYears}</span>
-                    <span class="time-label">month${monthsAfterYears > 1 ? 's' : ''} ${yearsLived ? '' : suffix}</span>
-                </div>
-                ` : ''}
-                ${remainingDays > 0 ? `
-                <div class="time-segment">
-                    <span class="time-value">${remainingDays}</span>
-                    <span class="time-label">day${remainingDays > 1 ? 's' : ''} ${(!yearsLived && !monthsAfterYears) ? suffix : ''}</span>
-                </div>
-                ` : ''}
-                <div class="time-segment">
-                    <span class="time-value">${String(hours).padStart(2, '0')}</span>
+                    <span class="time-value">${String(age.hours).padStart(2, '0')}</span>
                     <span class="time-label">hours</span>
                 </div>
                 <div class="time-segment">
-                    <span class="time-value">${String(minutes).padStart(2, '0')}</span>
+                    <span class="time-value">${String(age.minutes).padStart(2, '0')}</span>
                     <span class="time-label">minutes</span>
                 </div>
                 <div class="time-segment">
-                    <span class="time-value">${String(seconds).padStart(2, '0')}</span>
+                    <span class="time-value">${String(age.seconds).padStart(2, '0')}</span>
                     <span class="time-label">seconds</span>
                 </div>
-            `;
+            `);
+
+            return segments.join('');
         }
 
-        function updateSeasonalColors() {
-            const now = new Date();
-            const month = now.getMonth();
-            const day = now.getDate();
-            const root = document.documentElement;
 
-            // Astronomical seasons with exact dates and gradual color transitions
-            const seasons = {
-                winter: {
-                    start: { month: 11, day: 21 },  // December 21
-                    end: { month: 2, day: 19 },     // March 19
-                    mainColor: 'rgba(0, 149, 255, 0.1)',
-                    transitionColor: 'rgba(64, 196, 255, 0.1)'  // Transitions to spring
-                },
-                spring: {
-                    start: { month: 2, day: 20 },    // March 20
-                    end: { month: 5, day: 20 },      // June 20
-                    mainColor: 'rgba(64, 196, 255, 0.1)',
-                    transitionColor: 'rgba(0, 183, 255, 0.1)'   // Transitions to summer
-                },
-                summer: {
-                    start: { month: 5, day: 21 },    // June 21
-                    end: { month: 8, day: 22 },      // September 22
-                    mainColor: 'rgba(0, 183, 255, 0.1)',
-                    transitionColor: 'rgba(0, 113, 227, 0.1)'   // Transitions to fall
-                },
-                fall: {
-                    start: { month: 8, day: 23 },    // September 23
-                    end: { month: 11, day: 20 },     // December 20
-                    mainColor: 'rgba(0, 113, 227, 0.1)',
-                    transitionColor: 'rgba(0, 149, 255, 0.1)'   // Transitions to winter
+
+        function startTimers() {
+            if (state.hasError) return;
+            
+            try {
+                // Clear existing intervals
+                if (state.timerInterval) clearInterval(state.timerInterval);
+                if (state.weatherInterval) clearInterval(state.weatherInterval);
+                
+                // Start timer
+                state.timerInterval = setInterval(updateTimer, CONSTANTS.UPDATE_INTERVAL);
+                
+                // Start weather updates
+                state.weatherInterval = setInterval(fetchWeatherData, CONSTANTS.WEATHER_UPDATE_INTERVAL);
+                
+                // Initial updates
+                updateTimer();
+                updateWeatherWidget(); // Initialize widget in loading state
+                fetchWeatherData(); // Initial weather fetch
+                
+            } catch (error) {
+                console.error('Error starting timers:', error);
+                showError('Failed to start timers');
+            }
+        }
+
+        function cleanup() {
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            if (state.weatherInterval) clearInterval(state.weatherInterval);
+            if (state.weatherSystem) {
+                state.weatherSystem.destroy();
+                state.weatherSystem = null;
+            }
+        }
+
+        // Initialize the application
+        function init() {
+            try {
+                if (!initializeDates()) return;
+                
+                // Initialize modern weather system
+                state.weatherSystem = new WeatherSystem();
+                
+                // Add event listeners
+                document.addEventListener('visibilitychange', handleVisibilityChange);
+                window.addEventListener('beforeunload', cleanup);
+                
+                // Start the application
+                startTimers();
+                
+            } catch (error) {
+                console.error('Failed to initialize application:', error);
+                showError('Application failed to start');
+            }
+        }
+
+        // Testing functions for development
+        window.testSky = function(timeOfDay, weatherCondition = 'clear') {
+            console.log(`🧪 Testing sky: ${timeOfDay} + ${weatherCondition}`);
+            
+            // Temporarily override time/weather
+            const originalGetTimeOfDay = getTimeOfDay;
+            const originalGetWeatherCondition = getWeatherCondition;
+            
+            window.getTimeOfDay = () => timeOfDay;
+            window.getWeatherCondition = () => weatherCondition;
+            
+            // Force update
+            updateSkyGradient();
+            if (state.weatherSystem) {
+                state.weatherSystem.changeWeather(weatherCondition);
+            }
+            
+            // Restore original functions after 5 seconds
+            setTimeout(() => {
+                window.getTimeOfDay = originalGetTimeOfDay;
+                window.getWeatherCondition = originalGetWeatherCondition;
+                updateSkyGradient();
+                console.log('🧪 Test ended, restored normal sky behavior');
+            }, 5000);
+        };
+
+        window.testAllSkies = function() {
+            const times = ['dawn', 'morning', 'noon', 'afternoon', 'sunset', 'dusk', 'night'];
+            const weathers = ['clear', 'cloudy', 'light-rain', 'heavy-rain', 'snow', 'fog', 'thunderstorm'];
+            
+            console.log('🧪 Testing all sky combinations...');
+            
+            let index = 0;
+            const testNext = () => {
+                if (index < times.length) {
+                    const time = times[index];
+                    weathers.forEach((weather, wIndex) => {
+                        setTimeout(() => {
+                            testSky(time, weather);
+                            console.log(`🧪 Testing ${time} + ${weather} (${index * weathers.length + wIndex + 1}/${times.length * weathers.length})`);
+                        }, (index * weathers.length + wIndex) * 2000);
+                    });
+                    index++;
                 }
             };
+            
+            testNext();
+        };
 
-            function isDateInRange(month, day, start, end) {
-                const currentDate = month * 100 + day;
-                const startDate = start.month * 100 + start.day;
-                const endDate = end.month * 100 + end.day;
+        // Add helpful console message
+        console.log(`
+🌈 Sky System Ready!
+Commands:
+• testSky('dawn', 'clear') - Test specific time/weather
+• testSky('sunset', 'thunderstorm') - Test dramatic combinations  
+• testAllSkies() - Cycle through all combinations
+• Available times: dawn, morning, noon, afternoon, sunset, dusk, night
+• Available weather: clear, cloudy, light-rain, heavy-rain, snow, fog, thunderstorm
+        `);
 
-                // Handle year wrap (winter)
-                if (startDate > endDate) {
-                    return currentDate >= startDate || currentDate <= endDate;
-                }
-                return currentDate >= startDate && currentDate <= endDate;
-            }
-
-            function calculateTransitionProgress(month, day, season) {
-                const daysInTransition = 15; // Number of days for color transition
-                const currentDate = new Date(now.getFullYear(), month, day);
-
-                // Calculate days from season start/end
-                const seasonStart = new Date(now.getFullYear(), season.start.month, season.start.day);
-                const seasonEnd = new Date(now.getFullYear(), season.end.month, season.end.day);
-
-                // Handle year wrap for winter
-                if (season.start.month === 11 && month < 2) {
-                    seasonStart.setFullYear(seasonStart.getFullYear() - 1);
-                }
-
-                const daysFromStart = Math.abs((currentDate - seasonStart) / (1000 * 60 * 60 * 24));
-                const daysToEnd = Math.abs((seasonEnd - currentDate) / (1000 * 60 * 60 * 24));
-
-                if (daysFromStart < daysInTransition) {
-                    return daysFromStart / daysInTransition;
-                } else if (daysToEnd < daysInTransition) {
-                    return 1 - (daysToEnd / daysInTransition);
-                }
-                return 1;
-            }
-
-            function interpolateColors(color1, color2, progress) {
-                const regex = /rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/;
-                const [_, r1, g1, b1, a1] = color1.match(regex).map(Number);
-                const [__, r2, g2, b2, a2] = color2.match(regex).map(Number);
-
-                const r = Math.round(r1 + (r2 - r1) * progress);
-                const g = Math.round(g1 + (g2 - g1) * progress);
-                const b = Math.round(b1 + (b2 - b1) * progress);
-                const a = Number((a1 + (a2 - a1) * progress).toFixed(3));
-
-                return `rgba(${r}, ${g}, ${b}, ${a})`;
-            }
-
-            let currentSeason = 'winter';
-            let color = seasons.winter.mainColor;
-
-            // Determine current season and calculate color
-            for (const [season, dates] of Object.entries(seasons)) {
-                if (isDateInRange(month, day, dates.start, dates.end)) {
-                    currentSeason = season;
-                    const progress = calculateTransitionProgress(month, day, dates);
-                    color = interpolateColors(dates.mainColor, dates.transitionColor, progress);
-                    break;
-                }
-            }
-
-            // Update CSS variable
-            root.style.setProperty('--water-color', color);
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
         }
-
-        setInterval(updateTimer, 1000);
-        updateTimer();
-        updateSeasonalColors();
-        setInterval(updateSeasonalColors, 1000 * 60 * 60); // Update colors every hour
-
-        let mouseX = 0;
-        let mouseXInterpolated = 0;
-        const interpolationFactor = 0.08; // Adjust for smoother/faster movement
-
-        function updateWaves() {
-            // Smooth interpolation
-            const dx = mouseX - mouseXInterpolated;
-            mouseXInterpolated += dx * interpolationFactor;
-
-            // Update CSS variable
-            document.documentElement.style.setProperty('--mouse-x', mouseXInterpolated);
-
-            // Continue animation loop
-            requestAnimationFrame(updateWaves);
-        }
-
-        document.addEventListener('mousemove', (e) => {
-            // Calculate mouse position relative to window center
-            const centerX = window.innerWidth / 2;
-            mouseX = (e.clientX - centerX) / 10; // Adjust divisor to control movement intensity
-        });
-
-        // Start the animation loop
-        updateWaves();
     </script>
 </body>
 </html>
