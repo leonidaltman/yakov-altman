@@ -4,54 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Yakov Altman Timer Site - A personal portfolio/tracking website featuring an interactive timer displaying time until/since birth with dynamic weather-based sky animations and glassmorphism UI. Deployed to GitHub Pages at levaltman.com.
+Placeholder site for yakovaltman.com, kept until Yakov turns 18. It shows Yakov's age as a live clock over a sky that follows the real sun and weather in Haifa. Deployed with GitHub Pages; the custom domain is set in `CNAME`.
+
+The sister site, leonidaltman/ilyaaltman.com, uses the same `index.html`. Only the `<head>` tags, the `<h1>`, the footer text and the `SITE` constant differ, so mirror any other change to both repos.
 
 ## Architecture
 
-**Single-file vanilla web application** - All HTML, CSS, and JavaScript contained in `index.html` with no build tools or external dependencies.
+Everything is in `index.html`: HTML, CSS and JavaScript, no build step and no dependencies apart from Google Fonts.
 
-- **CSS** (lines 47-911): Inline styles with CSS custom properties for theming, glassmorphism effects, sky gradient presets, responsive breakpoints at 320px, 480px, 734px, 900px, 1200px
-- **JavaScript** (lines 978-2237): Timer logic, weather API integration, canvas-based weather animations, sky gradient calculations
-
-## Key Configuration Points
-
-When modifying timer behavior:
-- Birth date: line 981 (`BIRTH_DATE: '2026-01-26T17:51:00.000Z'`)
-- Eighteen-year date: line 982 (`EIGHTEEN_YEARS_DATE`)
-- Weather location: lines 991-993 (Haifa coordinates and timezone)
-- Milestone messages: lines 1814-1835 (age-based messages)
-- Phase messages: lines 1842-1849 (life stage descriptions)
-
-## Weather System
-
-The site displays real-time weather for Haifa, Israel using the Open-Meteo API (no API key required):
-- Weather widget shows temperature, wind, humidity, WMO code
-- Sky gradient dynamically adjusts based on temperature, time of day, and weather conditions
-- Canvas-based particle animations for rain, snow, fog, clouds, wind
-- Lightning effects for thunderstorms
+- `SITE`: name and birth date (UTC). The 18th birthday is derived from it.
+- Age: `addMonths` and `ageAt` count calendar months in UTC, clamping to month ends.
+- Sky: `sunPosition` gives the sun's altitude and azimuth for Haifa; `SKY_KEYS` maps altitude to zenith, middle and horizon colours; weather dulls and darkens them. The canvas draws stars, sun, moon phase, clouds, rain, snow, fog and lightning. Text colour flips between light and dark from the sky's brightness.
+- Weather: Open-Meteo current conditions (no API key), refreshed every 10 minutes. If the request fails the sky still follows the sun.
+- `prefers-reduced-motion` stops all animation.
 
 ## Development
-
-No build process required. Open `index.html` directly in a browser or serve with any static file server:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Console commands for testing sky effects:
-- `testSky('sunset', 'thunderstorm')` - Test specific time/weather combination
-- `testAllSkies()` - Cycle through all combinations
+Try other skies with URL parameters: `?time=dawn|noon|sunset|night` and `?weather=clear|clouds|rain|storm|fog`, for example `http://localhost:8000/?time=sunset&weather=storm`.
 
 ## Deployment
 
-Direct GitHub Pages deployment - push changes to main branch. Custom domain configured via CNAME file.
-
-## Technical Notes
-
-- Timer updates every second via `setInterval`
-- Weather data fetched every 10 minutes from Open-Meteo API
-- Sky colors interpolate smoothly between weather updates over 60 seconds
-- Canvas weather animations use `requestAnimationFrame` for 60fps rendering
-- Glassmorphism UI with `backdrop-filter: blur()` for frosted glass effect
-- Uses CSS `font-feature-settings: "tnum"` for monospaced numerals
-- Accessibility: screen reader support, reduced motion preference, high contrast mode
+Pushing to `main` deploys to the live site.
