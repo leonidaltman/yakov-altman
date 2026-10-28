@@ -1,2239 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Yakov Altman - Growing Stronger Every Second</title>
-    <meta name="description" content="A live timer counting the time since Yakov Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
-    <meta name="keywords" content="Yakov Altman, birth timer, life counter, growing, milestone tracker">
-    <meta name="author" content="Leonid Altman">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Preload critical resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yakovaltman.com">
-    <meta property="og:title" content="Yakov Altman - Growing Stronger Every Second">
-    <meta property="og:description" content="A live timer counting the time since Yakov Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
-    <meta property="og:site_name" content="Yakov Altman">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://yakovaltman.com">
-    <meta property="twitter:title" content="Yakov Altman - Growing Stronger Every Second">
-    <meta property="twitter:description" content="A live timer counting the time since Yakov Altman's birth on January 26, 2026. Watch as each moment becomes part of an incredible journey of growth and discovery.">
-    
-    <!-- Favicons and app icons -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏱️</text></svg>">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Yakov Altman",
-      "birthDate": "2026-01-26",
-      "familyName": "Altman",
-      "givenName": "Yakov",
-      "url": "https://yakovaltman.com",
-      "description": "Growing stronger every second since January 26, 2026"
-    }
-    </script>
-    <style>
-        :root {
-            --primary-color: #0071e3;
-            --secondary-color: #86868b;
-            --background-color: #fbfbfd;
-            --text-color: #1d1d1f;
-            
-            /* Sky gradient variables */
-            --sky-color-1: #87CEEB;
-            --sky-color-2: #98D8E8;
-            --sky-color-3: #B0E0E6;
-            --sky-transition-duration: 10s;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: -apple-system, 'Inter', sans-serif;
-            background: linear-gradient(
-                180deg,
-                var(--sky-color-1) 0%,
-                var(--sky-color-2) 50%,
-                var(--sky-color-3) 100%
-            );
-            color: var(--text-color);
-            -webkit-font-smoothing: antialiased;
-            transition: background var(--sky-transition-duration) ease-in-out;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Modern 2025 Weather Canvas System */
-        #weather-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        #weather-canvas.active {
-            opacity: 1;
-        }
-
-        /* Lightning flash overlay */
-        .lightning-flash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: radial-gradient(ellipse at var(--lightning-x, 50%) var(--lightning-y, 30%), 
-                        rgba(255, 255, 255, 0.95) 0%, 
-                        rgba(135, 206, 235, 0.7) 20%, 
-                        transparent 50%);
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0;
-            mix-blend-mode: screen;
-        }
-
-        .lightning-flash.active {
-            animation: lightning-modern 0.15s ease-out;
-        }
-
-        @keyframes lightning-modern {
-            0% { opacity: 0; }
-            10% { opacity: 1; }
-            20% { opacity: 0.3; }
-            30% { opacity: 1; }
-            40% { opacity: 0; }
-            100% { opacity: 0; }
-        }
-
-        /* Data-Driven Weather Widget */
-        .weather-widget {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 16px;
-            padding: 1rem 1.25rem;
-            font-family: -apple-system, 'Inter', monospace;
-            text-align: left;
-            min-width: 140px;
-            transition: all 0.3s ease;
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        .weather-widget.loaded {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .weather-widget:hover {
-            background: rgba(255, 255, 255, 0.18);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-            cursor: default;
-        }
-
-        .weather-loading {
-            font-size: 1.2rem;
-            animation: weather-pulse 2s ease-in-out infinite;
-            text-align: center;
-        }
-
-        @keyframes weather-pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        .weather-location {
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
-        .weather-temp {
-            font-size: 2rem;
-            font-weight: 200;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 0.4rem;
-            font-feature-settings: "tnum";
-            letter-spacing: -0.02em;
-        }
-
-        .weather-data-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.65rem;
-            color: rgba(255, 255, 255, 0.75);
-            margin: 0.3rem 0;
-            font-feature-settings: "tnum";
-        }
-
-        .weather-data-label {
-            opacity: 0.7;
-            letter-spacing: 0.03em;
-        }
-
-        .weather-data-value {
-            font-weight: 500;
-            font-family: 'Inter', monospace;
-        }
-
-        .weather-wind-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            position: relative;
-            margin-left: 4px;
-            vertical-align: middle;
-        }
-
-        .weather-wind-indicator::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 3px solid transparent;
-            border-right: 3px solid transparent;
-            border-bottom: 5px solid rgba(255, 255, 255, 0.8);
-            top: 50%;
-            left: 50%;
-            transform-origin: center;
-        }
-
-        .weather-intensity-bar {
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 1px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-
-        .weather-intensity-fill {
-            height: 100%;
-            background: rgba(255, 255, 255, 0.7);
-            transition: width 0.5s ease;
-        }
-
-        /* Sky gradient presets for different conditions */
-        .sky-dawn-clear {
-            --sky-color-1: #FFB6C1;
-            --sky-color-2: #FFA07A;
-            --sky-color-3: #FFE4B5;
-        }
-
-        .sky-morning-clear {
-            --sky-color-1: #87CEEB;
-            --sky-color-2: #98D8E8;
-            --sky-color-3: #B0E0E6;
-        }
-
-        .sky-noon-clear {
-            --sky-color-1: #4A90E2;
-            --sky-color-2: #67B7FF;
-            --sky-color-3: #87CEEB;
-        }
-
-        .sky-afternoon-clear {
-            --sky-color-1: #FFB347;
-            --sky-color-2: #FFDAB9;
-            --sky-color-3: #FFF8DC;
-        }
-
-        .sky-sunset-clear {
-            --sky-color-1: #FF6B6B;
-            --sky-color-2: #FF8E53;
-            --sky-color-3: #FF6B9D;
-        }
-
-        .sky-dusk-clear {
-            --sky-color-1: #483D8B;
-            --sky-color-2: #6A5ACD;
-            --sky-color-3: #8A2BE2;
-        }
-
-        .sky-night-clear {
-            --sky-color-1: #191970;
-            --sky-color-2: #2F2F4F;
-            --sky-color-3: #483D8B;
-        }
-
-        /* Cloudy variants */
-        .sky-cloudy {
-            --sky-color-1: #B0C4DE;
-            --sky-color-2: #D3D3D3;
-            --sky-color-3: #E6E6FA;
-        }
-
-        .sky-overcast {
-            --sky-color-1: #708090;
-            --sky-color-2: #A9A9A9;
-            --sky-color-3: #C0C0C0;
-        }
-
-        /* Rainy variants */
-        .sky-light-rain {
-            --sky-color-1: #778899;
-            --sky-color-2: #B0C4DE;
-            --sky-color-3: #D3D3D3;
-        }
-
-        .sky-heavy-rain {
-            --sky-color-1: #2F4F4F;
-            --sky-color-2: #696969;
-            --sky-color-3: #808080;
-        }
-
-        /* Snowy variants */
-        .sky-snow {
-            --sky-color-1: #F0F8FF;
-            --sky-color-2: #F5F5F5;
-            --sky-color-3: #FFFFFF;
-        }
-
-        /* Foggy variants */
-        .sky-fog {
-            --sky-color-1: #D3D3D3;
-            --sky-color-2: #DCDCDC;
-            --sky-color-3: #F5F5F5;
-        }
-
-        /* Time-based weather variations */
-        /* Cloudy with time progression */
-        .sky-cloudy-dawn {
-            --sky-color-1: #F5B7B1;
-            --sky-color-2: #E8E8E8;
-            --sky-color-3: #F0F0F0;
-        }
-
-        .sky-cloudy-morning {
-            --sky-color-1: #AED6F1;
-            --sky-color-2: #D5DBDB;
-            --sky-color-3: #EAEDED;
-        }
-
-        .sky-cloudy-afternoon {
-            --sky-color-1: #F9E79F;
-            --sky-color-2: #D5D8DC;
-            --sky-color-3: #F8F9F9;
-        }
-
-        .sky-cloudy-sunset {
-            --sky-color-1: #F1948A;
-            --sky-color-2: #D5DBDB;
-            --sky-color-3: #EBEDEF;
-        }
-
-        .sky-cloudy-dusk {
-            --sky-color-1: #BB8FCE;
-            --sky-color-2: #CCD1D1;
-            --sky-color-3: #E5E7E9;
-        }
-
-        .sky-cloudy-night {
-            --sky-color-1: #5D6D7E;
-            --sky-color-2: #85929E;
-            --sky-color-3: #AEB6BF;
-        }
-
-        /* Rain with time variations */
-        .sky-light-rain-golden {
-            --sky-color-1: #A04000;
-            --sky-color-2: #8C7853;
-            --sky-color-3: #B7950B;
-        }
-
-        .sky-light-rain-dark {
-            --sky-color-1: #34495E;
-            --sky-color-2: #5D6D7E;
-            --sky-color-3: #85929E;
-        }
-
-        .sky-heavy-rain-night {
-            --sky-color-1: #1C2833;
-            --sky-color-2: #283747;
-            --sky-color-3: #34495E;
-        }
-
-        /* Thunderstorm - very dramatic */
-        .sky-thunderstorm {
-            --sky-color-1: #0F1419;
-            --sky-color-2: #1C2833;
-            --sky-color-3: #283747;
-        }
-
-        /* Snow with time variations */
-        .sky-snow-dawn {
-            --sky-color-1: #FADBD8;
-            --sky-color-2: #FBFCFC;
-            --sky-color-3: #FFFFFF;
-        }
-
-        .sky-snow-night {
-            --sky-color-1: #AEB6BF;
-            --sky-color-2: #D5DBDB;
-            --sky-color-3: #F8F9F9;
-        }
-
-        /* Fog with time variations */
-        .sky-fog-dawn {
-            --sky-color-1: #E8DAEF;
-            --sky-color-2: #F4F6F6;
-            --sky-color-3: #FDFEFE;
-        }
-
-        .sky-fog-night {
-            --sky-color-1: #85929E;
-            --sky-color-2: #AEB6BF;
-            --sky-color-3: #D5DBDB;
-        }
-
-        .container {
-            text-align: center;
-            padding: 2.5rem;
-            max-width: 900px;
-            position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 24px;
-            box-shadow: 
-                0 8px 32px rgba(0, 0, 0, 0.12),
-                0 2px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .container:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 
-                0 12px 48px rgba(0, 0, 0, 0.15),
-                0 4px 12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        h1 {
-            font-size: 56px;
-            line-height: 1.07143;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            margin-bottom: 0.75em;
-            color: rgba(255, 255, 255, 0.95);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .container:hover h1 {
-            color: rgba(255, 255, 255, 1);
-            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .timer {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 2.5rem 0;
-        }
-
-        .time-segment {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 16px;
-            padding: 1.25rem 1rem;
-            min-width: 90px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .time-segment::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(255, 255, 255, 0.3) 50%, 
-                transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .time-segment:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 
-                0 8px 24px rgba(0, 0, 0, 0.15),
-                0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .time-segment:hover::before {
-            opacity: 1;
-        }
-
-        .time-value {
-            font-size: 42px;
-            font-weight: 300;
-            color: rgba(255, 255, 255, 0.95);
-            font-feature-settings: "tnum";
-            min-width: 70px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 0.5rem;
-        }
-
-        .time-value.updating {
-            opacity: 0.6;
-            transform: scale(0.98);
-        }
-
-        .time-segment:hover .time-value {
-            color: rgba(255, 255, 255, 1);
-            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
-        }
-
-        .time-label {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            line-height: 1.3;
-        }
-
-        .time-segment:hover .time-label {
-            color: rgba(255, 255, 255, 0.9);
-            letter-spacing: 0.1em;
-        }
-
-        .message {
-            font-size: 20px;
-            line-height: 1.4;
-            font-weight: 400;
-            letter-spacing: 0.01em;
-            color: rgba(255, 255, 255, 0.85);
-            margin-top: 2.5rem;
-            transition: all 0.3s ease-in-out;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-            padding: 1rem 2rem;
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            position: relative;
-        }
-
-        .container:hover .message {
-            color: rgba(255, 255, 255, 0.95);
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        /* Accessibility improvements */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
-        .loading {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation: none !important;
-                transition: none !important;
-            }
-            
-            .weather-layer {
-                display: none !important;
-            }
-
-            .weather-widget {
-                transition: none !important;
-                transform: none !important;
-            }
-
-            .weather-widget:hover {
-                transform: none !important;
-            }
-
-            .weather-loading {
-                animation: none !important;
-            }
-
-            .weather-widget:hover::after {
-                animation: none !important;
-                opacity: 1 !important;
-            }
-
-            .container {
-                transition: none !important;
-                transform: none !important;
-            }
-
-            .container:hover {
-                transform: none !important;
-            }
-
-            .time-segment {
-                transition: none !important;
-                transform: none !important;
-            }
-
-            .time-segment:hover {
-                transform: none !important;
-            }
-
-            .time-segment::before {
-                transition: none !important;
-            }
-
-            .time-value, .time-label, .message, h1 {
-                transition: none !important;
-                transform: none !important;
-            }
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            :root {
-                --primary-color: #0000ff;
-                --secondary-color: #000000;
-                --text-color: #000000;
-                --sky-color-1: #ffffff;
-                --sky-color-2: #ffffff;
-                --sky-color-3: #ffffff;
-            }
-        }
-
-
-
-        /* Focus management */
-        .timer:focus-within {
-            outline: 2px solid var(--primary-color);
-            outline-offset: 4px;
-            border-radius: 8px;
-        }
-
-
-
-        @media (max-width: 900px) {
-            .container {
-                padding: 2rem;
-                max-width: 700px;
-                margin: 1rem;
-            }
-            
-            h1 {
-                font-size: 48px;
-            }
-
-            .timer {
-                gap: 0.8rem;
-                margin: 2rem 0;
-            }
-
-            .time-segment {
-                padding: 1rem 0.8rem;
-                min-width: 80px;
-            }
-
-            .time-value {
-                font-size: 36px;
-                min-width: 60px;
-            }
-
-            .time-label {
-                font-size: 11px;
-            }
-
-            .message {
-                font-size: 18px;
-                padding: 0.8rem 1.5rem;
-                margin-top: 2rem;
-            }
-
-            .weather-widget {
-                top: 1.5rem;
-                right: 1.5rem;
-                padding: 0.8rem 1rem;
-                min-width: 110px;
-            }
-
-            .weather-temp {
-                font-size: 1.3rem;
-            }
-        }
-
-        @media (max-width: 734px) {
-            .container {
-                padding: 1.5rem;
-                margin: 0.5rem;
-            }
-
-            h1 { 
-                font-size: 36px;
-                margin-bottom: 0.5rem;
-            }
-            
-            .timer {
-                gap: 0.6rem;
-                margin: 1.5rem 0;
-            }
-
-            .time-segment {
-                padding: 0.8rem 0.6rem;
-                min-width: 70px;
-                border-radius: 12px;
-            }
-
-            .time-value { 
-                font-size: 28px; 
-                min-width: 50px;
-                margin-bottom: 0.3rem;
-            }
-
-            .time-label {
-                font-size: 10px;
-                letter-spacing: 0.06em;
-            }
-
-            .message { 
-                font-size: 16px;
-                padding: 0.8rem 1rem;
-                margin-top: 1.5rem;
-                border-radius: 12px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 1.5rem;
-                margin: 0.5rem;
-                border-radius: 20px;
-            }
-
-            h1 { 
-                font-size: 32px;
-                margin-bottom: 0.75rem;
-            }
-
-            .timer {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.8rem;
-                margin: 1.5rem 0;
-            }
-
-            .time-segment {
-                width: 100%;
-                max-width: 200px;
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .time-value { 
-                font-size: 32px;
-                min-width: auto;
-                margin-bottom: 0.4rem;
-            }
-
-            .time-label {
-                font-size: 11px;
-                letter-spacing: 0.08em;
-            }
-
-            .message {
-                font-size: 15px;
-                margin-top: 1.5rem;
-                padding: 1rem;
-                border-radius: 12px;
-            }
-
-            .weather-widget {
-                top: 1rem;
-                right: 1rem;
-                padding: 0.6rem 0.8rem;
-                min-width: 100px;
-                border-radius: 12px;
-            }
-
-            .weather-location {
-                font-size: 0.65rem;
-            }
-
-            .weather-temp {
-                font-size: 1.2rem;
-            }
-
-            .weather-condition {
-                font-size: 0.65rem;
-            }
-
-            .weather-condition::before {
-                font-size: 1rem;
-            }
-        }
-
-        /* Handle very small screens */
-        @media (max-width: 320px) {
-            h1 {
-                font-size: 28px;
-            }
-
-            .time-value {
-                font-size: 24px;
-                min-width: 40px;
-            }
-
-            .time-segment {
-                margin-bottom: 0.8rem;
-            }
-        }
-
-        /* Handle landscape orientation on mobile */
-        @media (max-height: 480px) and (orientation: landscape) {
-            .container {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 24px;
-                margin-bottom: 0.5rem;
-            }
-
-            .timer {
-                margin: 1rem 0;
-            }
-
-            .time-value {
-                font-size: 24px;
-            }
-
-            .message {
-                margin-top: 0.5rem;
-            }
-        }
-
-        /* Handle larger screens */
-        @media (min-width: 1200px) {
-            .container {
-                max-width: 1100px;
-                padding: 3rem;
-            }
-
-            h1 {
-                font-size: 64px;
-                margin-bottom: 1rem;
-            }
-
-            .timer {
-                gap: 1.5rem;
-                margin: 3rem 0;
-            }
-
-            .time-segment {
-                padding: 1.5rem 1.25rem;
-                min-width: 110px;
-                border-radius: 20px;
-            }
-
-            .time-value {
-                font-size: 52px;
-                min-width: 90px;
-                margin-bottom: 0.6rem;
-            }
-
-            .time-label {
-                font-size: 14px;
-                letter-spacing: 0.1em;
-            }
-
-            .message {
-                font-size: 24px;
-                margin-top: 3rem;
-                padding: 1.5rem 2.5rem;
-                border-radius: 20px;
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yakov Altman</title>
+<meta name="description" content="A live clock of Yakov Altman's age since 26 January 2026, under the sky over Haifa as it is right now.">
+<meta name="author" content="Leonid Altman">
+<meta name="theme-color" content="#0e1430">
+<link rel="canonical" href="https://yakovaltman.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yakovaltman.com/">
+<meta property="og:title" content="Yakov Altman">
+<meta property="og:description" content="A live clock of Yakov Altman's age since 26 January 2026, under the sky over Haifa as it is right now.">
+<meta property="og:site_name" content="Yakov Altman">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%232b4a86'/%3E%3Cstop offset='1' stop-color='%23f6a35c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='40' r='11' fill='%23fff6e4'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Person", "name": "Yakov Altman", "givenName": "Yakov", "familyName": "Altman", "birthDate": "2026-01-26", "url": "https://yakovaltman.com/"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<style>
+  /* Layout: full-bleed live sky; name and age sit low-left like a caption on the horizon; an 18-year ruler underneath. */
+  :root {
+    --ink: #f6f3ee;          /* set from the sky's brightness at runtime */
+    --ink-soft: rgba(246, 243, 238, .72);
+    --ink-faint: rgba(246, 243, 238, .28);
+    --night: #070b1a;
+    --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    color-scheme: dark;
+  }
+  :root.light-sky {
+    --ink: #13213a;
+    --ink-soft: rgba(19, 33, 58, .72);
+    --ink-faint: rgba(19, 33, 58, .26);
+    color-scheme: light;
+  }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--night);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  #sky { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: clamp(20px, 4vh, 40px);
+    padding-block: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(clamp(16px, 5vw, 72px), env(safe-area-inset-left, 0px));
+    padding-right: max(clamp(16px, 5vw, 72px), env(safe-area-inset-right, 0px));
+    transition: color 2s ease;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    font-size: 13px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .top b { font-weight: 600; color: var(--ink); }
+  .top .mono { font-family: var(--font-mono); text-transform: none; letter-spacing: 0; }
+
+  .hero { align-self: end; display: grid; gap: 14px; max-width: 1100px; }
+  .eyebrow { margin: 0; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(60px, 15vw, 190px);
+    line-height: .86;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+  }
+  h1 em { font-style: italic; }
+  .age {
+    margin: 6px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 4.2vw, 46px);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .age .n { font-family: var(--font-body); font-weight: 500; font-size: .82em; letter-spacing: -.01em; }
+  .clock {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(22px, 3vw, 30px);
+    font-variant-numeric: tabular-nums;
+  }
+  .clock small { font-family: var(--font-body); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft); }
+
+  /* The 18-year ruler */
+  .ruler { display: grid; gap: 10px; max-width: 1100px; }
+  .ticks { position: relative; height: 22px; }
+  .ticks i {
+    position: absolute; bottom: 0; width: 1px; height: 8px;
+    background: var(--ink-faint);
+  }
+  .ticks i.major { height: 14px; background: var(--ink-soft); }
+  .ticks .line { position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--ink-faint); }
+  .ticks .done { position: absolute; left: 0; bottom: 0; height: 2px; background: var(--ink); transition: width 1s ease; }
+  .ticks .now {
+    position: absolute; bottom: -5px; width: 11px; height: 11px; margin-left: -5.5px;
+    border-radius: 50%; background: var(--ink);
+    box-shadow: 0 0 0 4px var(--ink-faint);
+  }
+  .ruler-labels {
+    display: flex; justify-content: space-between; gap: 12px;
+    font-size: 13px; color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .ruler-labels b { color: var(--ink); font-weight: 600; }
+  .ruler-labels .mid { text-align: center; }
+
+  footer { font-size: 13px; color: var(--ink-soft); max-width: 60ch; }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+
+  @media (max-width: 600px) {
+    .top .hide-sm { display: none; }
+    .ruler-labels { flex-wrap: wrap; }
+    .ruler-labels .mid { order: 3; flex-basis: 100%; text-align: left; }
+  }
+  @media (max-height: 520px) {
+    h1 { font-size: clamp(48px, 11vw, 120px); }
+    footer { display: none; }
+  }
+</style>
 </head>
 <body>
-    <!-- Dynamic weather animation layers -->
-    <!-- Modern 2025 Weather System -->
-    <canvas id="weather-canvas"></canvas>
-    <div class="lightning-flash" id="lightning-flash"></div>
-    
-    <!-- Data-Driven Weather Widget -->
-    <div class="weather-widget" id="weather-widget" role="complementary" aria-label="Current weather data for Haifa">
-        <div class="weather-loading" id="weather-loading">📊</div>
-        <div class="weather-content" id="weather-content" style="display: none;">
-            <div class="weather-location">🇮🇱 HAIFA</div>
-            <div class="weather-temp" id="weather-temp">--°</div>
-            <div class="weather-data-row">
-                <span class="weather-data-label">Wind</span>
-                <span class="weather-data-value">
-                    <span id="weather-wind">--</span> km/h
-                    <span class="weather-wind-indicator" id="weather-wind-dir"></span>
-                </span>
-            </div>
-            <div class="weather-data-row">
-                <span class="weather-data-label">Humidity</span>
-                <span class="weather-data-value"><span id="weather-humidity">--</span>%</span>
-            </div>
-            <div class="weather-data-row">
-                <span class="weather-data-label">WMO</span>
-                <span class="weather-data-value" id="weather-code">--</span>
-            </div>
-            <div class="weather-intensity-bar">
-                <div class="weather-intensity-fill" id="weather-intensity" style="width: 0%"></div>
-            </div>
-        </div>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <div class="top">
+    <span><b>Haifa</b> <span id="wx">· sky by the sun</span></span>
+    <span class="mono"><span class="hide-sm">local time </span><span id="local-time">--:--</span></span>
+  </div>
+
+  <section class="hero" aria-labelledby="name">
+    <p class="eyebrow" id="born">Born</p>
+    <h1 id="name">Yakov Altman</h1>
+    <p class="age" id="age" aria-live="off">&nbsp;</p>
+    <p class="clock"><span id="clock">00:00:00</span><small>hours · minutes · seconds</small></p>
+  </section>
+
+  <section class="ruler" aria-label="Progress toward 18">
+    <div class="ticks" id="ticks"><span class="line"></span><span class="done" id="done"></span><span class="now" id="now"></span></div>
+    <div class="ruler-labels">
+      <span id="ruler-start"></span>
+      <span class="mid" id="ruler-mid"></span>
+      <span id="ruler-end"></span>
     </div>
-
-    <main class="container">
-        <header>
-            <h1>Yakov Altman</h1>
-            <p class="sr-only">A live timer showing the time elapsed since Yakov's birth on January 26, 2026</p>
-        </header>
-        
-        <section aria-live="polite" aria-atomic="true">
-            <h2 class="sr-only">Time Elapsed</h2>
-            <div class="timer" 
-                 id="timer" 
-                 role="timer" 
-                 aria-label="Time since birth"
-                 tabindex="0">
-                <div class="loading" aria-hidden="true">Loading...</div>
-            </div>
-        </section>
-        
-        <aside aria-live="polite" aria-atomic="false">
-            <h2 class="sr-only">Current Milestone</h2>
-            <div class="message" id="message" role="status">Growing stronger every second</div>
-        </aside>
-        
-        <!-- Loading and error states -->
-        <div id="error-message" class="sr-only" role="alert" aria-live="assertive"></div>
-        
-        <!-- Progress indicator for screen readers -->
-        <div class="sr-only">
-            <span id="progress-text">Progress through first 18 years: </span>
-            <span id="progress-value" aria-live="polite">0%</span>
-        </div>
-    </main>
-
-    <script>
-        // Constants
-        const CONSTANTS = {
-            BIRTH_DATE: '2026-01-26T17:51:00.000Z',
-            EIGHTEEN_YEARS_DATE: '2044-01-26T17:51:00.000Z',
-            MILLISECONDS_IN_SECOND: 1000,
-            MILLISECONDS_IN_MINUTE: 1000 * 60,
-            MILLISECONDS_IN_HOUR: 1000 * 60 * 60,
-            MILLISECONDS_IN_DAY: 1000 * 60 * 60 * 24,
-            UPDATE_INTERVAL: 1000,
-            MESSAGE_TRANSITION_DELAY: 200,
-            
-            // Weather and location constants
-            HAIFA_LAT: 32.7940,
-            HAIFA_LON: 34.9896,
-            HAIFA_TIMEZONE: 'Asia/Jerusalem',
-            WEATHER_UPDATE_INTERVAL: 10 * 60 * 1000, // 10 minutes
-            
-            // Free weather service (no API key required)
-            WEATHER_API_URL: 'https://api.open-meteo.com/v1/forecast'
-        };
-
-        // Global state
-        const state = {
-            birthDate: null,
-            eighteenYears: null,
-            timerInterval: null,
-            weatherInterval: null,
-            lightningInterval: null,
-            isHidden: false,
-            lastMessage: '',
-            hasError: false,
-            currentWeather: null,
-            previousWeather: null,
-            weatherTransitionStart: 0,
-            lastWeatherUpdate: 0,
-            currentSkyClass: '',
-            lastWeatherCondition: '',
-            lastTimeOfDay: null,
-            weatherSystem: null
-        };
-
-        // Initialize dates with error handling
-        function initializeDates() {
-            try {
-                state.birthDate = new Date(CONSTANTS.BIRTH_DATE);
-                state.eighteenYears = new Date(CONSTANTS.EIGHTEEN_YEARS_DATE);
-                
-                if (isNaN(state.birthDate.getTime()) || isNaN(state.eighteenYears.getTime())) {
-                    throw new Error('Invalid date configuration');
-                }
-                
-                return true;
-            } catch (error) {
-                console.error('Failed to initialize dates:', error);
-                showError('Failed to load timer configuration');
-                return false;
-            }
-        }
-
-        // Error handling
-        function showError(message) {
-            state.hasError = true;
-            const errorElement = document.getElementById('error-message');
-            const timerElement = document.getElementById('timer');
-            const messageElement = document.getElementById('message');
-            
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.classList.remove('sr-only');
-            }
-            
-            if (timerElement) {
-                timerElement.innerHTML = '<div class="time-segment"><span class="time-value">Error</span><span class="time-label">Please refresh</span></div>';
-            }
-            
-            if (messageElement) {
-                messageElement.textContent = 'Something went wrong';
-            }
-        }
-
-        // Page visibility handling
-        function handleVisibilityChange() {
-            if (document.hidden) {
-                state.isHidden = true;
-                if (state.timerInterval) clearInterval(state.timerInterval);
-                if (state.weatherInterval) clearInterval(state.weatherInterval);
-                if (state.weatherSystem) {
-                    state.weatherSystem.stop();
-                }
-            } else {
-                state.isHidden = false;
-                if (state.weatherSystem) {
-                    state.weatherSystem.start();
-                }
-                startTimers();
-            }
-        }
-
-        // Weather and sky gradient functions
-        async function fetchWeatherData() {
-            try {
-                // Fetch extended weather data including humidity and pressure
-                const url = `${CONSTANTS.WEATHER_API_URL}?latitude=${CONSTANTS.HAIFA_LAT}&longitude=${CONSTANTS.HAIFA_LON}&current=temperature_2m,relative_humidity_2m,weathercode,windspeed_10m,winddirection_10m,surface_pressure&timezone=${CONSTANTS.HAIFA_TIMEZONE}`;
-                const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`Weather API error: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                // Store previous weather for interpolation
-                if (state.currentWeather) {
-                    state.previousWeather = {...state.currentWeather};
-                }
-
-                // Map new API format to enhanced weather data
-                state.currentWeather = {
-                    temperature: data.current.temperature_2m,
-                    humidity: data.current.relative_humidity_2m,
-                    pressure: data.current.surface_pressure,
-                    weathercode: data.current.weathercode,
-                    windspeed: data.current.windspeed_10m,
-                    winddirection: data.current.winddirection_10m,
-                    time: data.current.time
-                };
-
-                state.lastWeatherUpdate = Date.now();
-                state.weatherTransitionStart = Date.now();
-
-                console.log('📊 Weather data updated:', state.currentWeather);
-                updateSkyGradient();
-                updateWeatherWidget();
-
-            } catch (error) {
-                console.error('Failed to fetch weather data:', error);
-                // Fallback to time-based sky without weather
-                updateSkyGradient();
-                updateWeatherWidget(); // Show error state in widget
-            }
-        }
-
-        // Data-driven color mapping utilities
-        function lerp(start, end, t) {
-            return start + (end - start) * Math.max(0, Math.min(1, t));
-        }
-
-        function lerpColor(color1, color2, t) {
-            // Parse hex colors
-            const r1 = parseInt(color1.slice(1, 3), 16);
-            const g1 = parseInt(color1.slice(3, 5), 16);
-            const b1 = parseInt(color1.slice(5, 7), 16);
-
-            const r2 = parseInt(color2.slice(1, 3), 16);
-            const g2 = parseInt(color2.slice(3, 5), 16);
-            const b2 = parseInt(color2.slice(5, 7), 16);
-
-            const r = Math.round(lerp(r1, r2, t));
-            const g = Math.round(lerp(g1, g2, t));
-            const b = Math.round(lerp(b1, b2, t));
-
-            return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-        }
-
-        function temperatureToColor(temp) {
-            // Temperature to color mapping
-            // -10°C = Deep blue, 0°C = Cyan, 15°C = Green, 25°C = Yellow, 35°C = Orange, 45°C = Red
-            const tempStops = [
-                { temp: -10, color: '#0066CC' },  // Deep blue
-                { temp: 0,   color: '#00AADD' },  // Cyan-blue
-                { temp: 10,  color: '#00CCAA' },  // Teal
-                { temp: 20,  color: '#88DD88' },  // Light green
-                { temp: 25,  color: '#DDDD66' },  // Yellow
-                { temp: 30,  color: '#FFAA44' },  // Orange
-                { temp: 40,  color: '#FF6644' },  // Red-orange
-                { temp: 50,  color: '#DD3333' }   // Red
-            ];
-
-            // Find the two stops to interpolate between
-            for (let i = 0; i < tempStops.length - 1; i++) {
-                if (temp <= tempStops[i + 1].temp) {
-                    const t = (temp - tempStops[i].temp) / (tempStops[i + 1].temp - tempStops[i].temp);
-                    return lerpColor(tempStops[i].color, tempStops[i + 1].color, t);
-                }
-            }
-
-            // Return edge cases
-            if (temp <= tempStops[0].temp) return tempStops[0].color;
-            return tempStops[tempStops.length - 1].color;
-        }
-
-        function getWeatherIntensity(weatherCode) {
-            // Map WMO weather codes to 0-100 intensity scale
-            if (weatherCode === 0) return 0;           // Clear
-            if (weatherCode <= 3) return 15;           // Partly cloudy
-            if (weatherCode <= 48) return 35;          // Fog
-            if (weatherCode <= 57) return 45;          // Drizzle
-            if (weatherCode <= 67) return 65;          // Rain
-            if (weatherCode <= 77) return 70;          // Snow
-            if (weatherCode <= 86) return 85;          // Showers
-            if (weatherCode >= 95) return 100;         // Thunderstorm
-            return 50; // fallback
-        }
-
-        function getTimeOfDay() {
-            try {
-                const now = new Date();
-                const haifaTime = new Intl.DateTimeFormat('en-US', {
-                    timeZone: CONSTANTS.HAIFA_TIMEZONE,
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    hour12: false
-                }).format(now);
-
-                const [hours, minutes] = haifaTime.split(':').map(Number);
-                const totalMinutes = hours * 60 + minutes;
-
-                let timeOfDay;
-                // Define time periods in minutes from midnight
-                if (totalMinutes >= 300 && totalMinutes < 420) timeOfDay = 'dawn';      // 5:00-7:00
-                else if (totalMinutes >= 420 && totalMinutes < 600) timeOfDay = 'morning';   // 7:00-10:00
-                else if (totalMinutes >= 600 && totalMinutes < 900) timeOfDay = 'noon';      // 10:00-15:00
-                else if (totalMinutes >= 900 && totalMinutes < 1080) timeOfDay = 'afternoon'; // 15:00-18:00
-                else if (totalMinutes >= 1080 && totalMinutes < 1200) timeOfDay = 'sunset';   // 18:00-20:00
-                else if (totalMinutes >= 1200 && totalMinutes < 1320) timeOfDay = 'dusk';     // 20:00-22:00
-                else timeOfDay = 'night'; // 22:00-5:00
-
-                // Debug logging to track time changes
-                if (state.lastTimeOfDay !== timeOfDay) {
-                    console.log(`⏰ Time period changed: ${state.lastTimeOfDay || 'unknown'} → ${timeOfDay} (${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')} Haifa time)`);
-                    state.lastTimeOfDay = timeOfDay;
-                }
-
-                return timeOfDay;
-
-            } catch (error) {
-                console.error('Error getting time of day:', error);
-                return 'morning'; // fallback
-            }
-        }
-
-        function getWeatherCondition() {
-            if (!state.currentWeather) return 'clear';
-            
-            const weatherCode = state.currentWeather.weathercode;
-            
-            // WMO Weather interpretation codes with enhanced detection
-            if (weatherCode === 0) return 'clear';                    // Clear sky
-            if (weatherCode <= 3) return 'cloudy';                    // Partly cloudy
-            if (weatherCode <= 48) return 'fog';                      // Fog
-            if (weatherCode <= 67) return 'light-rain';               // Light rain/drizzle
-            if (weatherCode <= 77) return 'heavy-rain';               // Heavy rain
-            if (weatherCode <= 86) return 'snow';                     // Snow
-            if (weatherCode >= 95) return 'thunderstorm';             // Thunderstorm
-            if (weatherCode <= 99) return 'heavy-rain';               // Other rain
-            
-            return 'clear'; // fallback
-        }
-
-        function getWeatherDisplay(weatherCode) {
-            // Convert WMO weather codes to display info
-            const weatherMap = {
-                0: { text: 'Clear Sky', icon: '☀️' },
-                1: { text: 'Mainly Clear', icon: '🌤️' },
-                2: { text: 'Partly Cloudy', icon: '⛅' },
-                3: { text: 'Overcast', icon: '☁️' },
-                45: { text: 'Fog', icon: '🌫️' },
-                48: { text: 'Rime Fog', icon: '🌫️' },
-                51: { text: 'Light Drizzle', icon: '🌦️' },
-                53: { text: 'Drizzle', icon: '🌦️' },
-                55: { text: 'Dense Drizzle', icon: '🌧️' },
-                56: { text: 'Freezing Drizzle', icon: '🌨️' },
-                57: { text: 'Dense Freezing Drizzle', icon: '🌨️' },
-                61: { text: 'Slight Rain', icon: '🌧️' },
-                63: { text: 'Moderate Rain', icon: '🌧️' },
-                65: { text: 'Heavy Rain', icon: '🌧️' },
-                66: { text: 'Freezing Rain', icon: '🌨️' },
-                67: { text: 'Heavy Freezing Rain', icon: '🌨️' },
-                71: { text: 'Slight Snow', icon: '🌨️' },
-                73: { text: 'Moderate Snow', icon: '❄️' },
-                75: { text: 'Heavy Snow', icon: '❄️' },
-                77: { text: 'Snow Grains', icon: '🌨️' },
-                80: { text: 'Slight Showers', icon: '🌦️' },
-                81: { text: 'Moderate Showers', icon: '🌧️' },
-                82: { text: 'Violent Showers', icon: '🌧️' },
-                85: { text: 'Slight Snow Showers', icon: '🌨️' },
-                86: { text: 'Heavy Snow Showers', icon: '❄️' },
-                95: { text: 'Thunderstorm', icon: '⛈️' },
-                96: { text: 'Thunderstorm w/ Hail', icon: '⛈️' },
-                99: { text: 'Heavy Thunderstorm w/ Hail', icon: '⛈️' }
-            };
-
-            return weatherMap[weatherCode] || { text: 'Unknown', icon: '🌈' };
-        }
-
-        function updateWeatherWidget() {
-            const widget = document.getElementById('weather-widget');
-            const loading = document.getElementById('weather-loading');
-            const content = document.getElementById('weather-content');
-            const tempElement = document.getElementById('weather-temp');
-            const windElement = document.getElementById('weather-wind');
-            const windDirElement = document.getElementById('weather-wind-dir');
-            const humidityElement = document.getElementById('weather-humidity');
-            const codeElement = document.getElementById('weather-code');
-            const intensityElement = document.getElementById('weather-intensity');
-
-            try {
-                if (!state.currentWeather) {
-                    // Show loading state
-                    loading.style.display = 'block';
-                    content.style.display = 'none';
-                    widget.classList.remove('loaded');
-                    return;
-                }
-
-                const weather = state.currentWeather;
-                const intensity = getWeatherIntensity(weather.weathercode);
-
-                // Update temperature
-                const temp = Math.round(weather.temperature);
-                tempElement.textContent = `${temp}°C`;
-
-                // Update wind
-                const windSpeed = Math.round(weather.windspeed);
-                windElement.textContent = windSpeed;
-
-                // Update wind direction indicator
-                if (windDirElement) {
-                    windDirElement.style.setProperty('--wind-direction', `${weather.winddirection}deg`);
-                    windDirElement.querySelector('::after')?.style.setProperty(
-                        'transform',
-                        `translate(-50%, -50%) rotate(${weather.winddirection}deg)`
-                    );
-                    // Update CSS transform directly
-                    const style = document.createElement('style');
-                    style.textContent = `#weather-wind-dir::after { transform: translate(-50%, -50%) rotate(${weather.winddirection}deg) !important; }`;
-                    document.head.appendChild(style);
-                }
-
-                // Update humidity
-                humidityElement.textContent = Math.round(weather.humidity);
-
-                // Update WMO code
-                codeElement.textContent = weather.weathercode;
-
-                // Update intensity bar
-                intensityElement.style.width = `${intensity}%`;
-
-                // Show content and hide loading
-                loading.style.display = 'none';
-                content.style.display = 'block';
-                widget.classList.add('loaded');
-
-                console.log(`📊 Widget updated: ${temp}°C, wind ${windSpeed}km/h @ ${weather.winddirection}°, intensity ${intensity}%`);
-
-            } catch (error) {
-                console.error('Error updating weather widget:', error);
-
-                // Show error state
-                loading.style.display = 'none';
-                content.style.display = 'block';
-                tempElement.textContent = '--°';
-                windElement.textContent = '--';
-                humidityElement.textContent = '--';
-                codeElement.textContent = '--';
-                intensityElement.style.width = '0%';
-                widget.classList.add('loaded');
-            }
-        }
-
-        // Modern 2025 Weather System - Canvas-based particle physics
-        class WeatherSystem {
-            constructor() {
-                this.canvas = document.getElementById('weather-canvas');
-                this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
-                this.particles = [];
-                this.cloudParticles = [];
-                this.windParticles = [];
-                this.animationId = null;
-                this.currentWeather = 'clear';
-                this.lightningFlash = document.getElementById('lightning-flash');
-                this.lightningInterval = null;
-                
-                if (this.canvas && this.ctx) {
-                    this.setupCanvas();
-                    this.start();
-                }
-            }
-
-            setupCanvas() {
-                this.resizeCanvas();
-                window.addEventListener('resize', () => this.resizeCanvas());
-                
-                // Enable hardware acceleration
-                this.ctx.imageSmoothingEnabled = true;
-                this.ctx.imageSmoothingQuality = 'high';
-            }
-
-            resizeCanvas() {
-                if (!this.canvas) return;
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-
-            start() {
-                if (!this.animationId) {
-                    this.animate();
-                }
-            }
-
-            stop() {
-                if (this.animationId) {
-                    cancelAnimationFrame(this.animationId);
-                    this.animationId = null;
-                }
-                this.stopLightning();
-            }
-
-            updateWeatherData(weatherData) {
-                // Data-driven weather rendering
-                const { intensity, windDirection, windSpeed, humidity, weatherCode } = weatherData;
-
-                this.stopLightning();
-                this.clearParticles();
-
-                // Show canvas for any weather effects
-                if (intensity > 5) {
-                    this.canvas.classList.add('active');
-                } else {
-                    this.canvas.classList.remove('active');
-                }
-
-                console.log(`📊 Weather system updated: intensity=${intensity}%, wind=${windSpeed}km/h @ ${windDirection}°`);
-
-                // Determine particle type based on weather code
-                const isRain = weatherCode >= 51 && weatherCode <= 82;
-                const isSnow = weatherCode >= 71 && weatherCode <= 86 && weatherCode !== 80 && weatherCode !== 81 && weatherCode !== 82;
-                const isFog = weatherCode >= 45 && weatherCode <= 48;
-                const isThunderstorm = weatherCode >= 95;
-
-                // Calculate particle counts based on intensity
-                const baseParticleCount = Math.round(intensity * 5); // 0-500 particles
-
-                if (isThunderstorm) {
-                    // Thunderstorm: heavy rain + clouds + lightning
-                    this.createRain(Math.max(400, baseParticleCount), 'heavy', windDirection, windSpeed);
-                    this.createClouds(Math.round(intensity / 5));
-                    this.createWind(Math.round(windSpeed / 2), windDirection);
-                    this.startLightning();
-                } else if (isRain) {
-                    // Rain: intensity determines count and style
-                    const rainIntensity = intensity > 70 ? 'heavy' : 'light';
-                    this.createRain(baseParticleCount, rainIntensity, windDirection, windSpeed);
-                    this.createClouds(Math.round(intensity / 10));
-                    if (windSpeed > 10) {
-                        this.createWind(Math.round(windSpeed / 2), windDirection);
-                    }
-                } else if (isSnow) {
-                    // Snow: based on intensity
-                    this.createSnow(Math.max(100, baseParticleCount), windDirection, windSpeed);
-                    this.createClouds(Math.round(intensity / 8));
-                } else if (isFog) {
-                    // Fog: humidity affects density
-                    const fogCount = Math.round((humidity / 100) * 150);
-                    this.createFog(fogCount);
-                } else if (intensity > 10) {
-                    // Cloudy: show clouds based on intensity
-                    this.createClouds(Math.round(intensity / 10));
-                    if (windSpeed > 5) {
-                        this.createWind(Math.round(windSpeed / 3), windDirection);
-                    }
-                } else if (windSpeed > 10) {
-                    // Clear with wind
-                    this.createWind(Math.round(windSpeed / 4), windDirection);
-                }
-            }
-
-            clearParticles() {
-                this.particles = [];
-                this.cloudParticles = [];
-                this.windParticles = [];
-            }
-
-            createRain(count, intensity, windDirection, windSpeed) {
-                // Convert wind direction to angle (wind FROM direction, so we add 180)
-                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
-                const windInfluence = windSpeed / 50; // Scale wind speed to visual angle
-
-                for (let i = 0; i < count; i++) {
-                    this.particles.push({
-                        type: 'rain',
-                        x: Math.random() * (this.canvas.width + 200) - 100,
-                        y: Math.random() * this.canvas.height - this.canvas.height,
-                        speed: intensity === 'heavy' ? 8 + Math.random() * 4 : 5 + Math.random() * 3,
-                        length: intensity === 'heavy' ? 15 + Math.random() * 10 : 8 + Math.random() * 6,
-                        opacity: intensity === 'heavy' ? 0.6 + Math.random() * 0.4 : 0.3 + Math.random() * 0.4,
-                        angle: Math.sin(windAngle) * windInfluence + (Math.random() * 0.2 - 0.1)
-                    });
-                }
-            }
-
-            createSnow(count, windDirection, windSpeed) {
-                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
-                const windInfluence = windSpeed / 80; // Snow drifts more slowly
-
-                for (let i = 0; i < count; i++) {
-                    this.particles.push({
-                        type: 'snow',
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height - this.canvas.height,
-                        speed: 1 + Math.random() * 2,
-                        size: 2 + Math.random() * 4,
-                        opacity: 0.6 + Math.random() * 0.4,
-                        drift: Math.sin(windAngle) * windInfluence + (Math.random() * 0.3 - 0.15),
-                        rotation: Math.random() * Math.PI * 2,
-                        rotationSpeed: (Math.random() - 0.5) * 0.02
-                    });
-                }
-            }
-
-            createClouds(count) {
-                for (let i = 0; i < count; i++) {
-                    this.cloudParticles.push({
-                        x: Math.random() * (this.canvas.width + 400) - 200,
-                        y: Math.random() * this.canvas.height * 0.6,
-                        size: 60 + Math.random() * 120,
-                        speed: 0.2 + Math.random() * 0.5,
-                        opacity: 0.1 + Math.random() * 0.3,
-                        blur: 20 + Math.random() * 40
-                    });
-                }
-            }
-
-            createWind(count, windDirection) {
-                const windAngle = ((windDirection + 180) % 360) * Math.PI / 180;
-                const dx = Math.cos(windAngle);
-                const dy = Math.sin(windAngle);
-
-                for (let i = 0; i < count; i++) {
-                    // Start particles off-screen in the direction opposite to wind
-                    const startX = dx < 0 ? this.canvas.width + 50 : -50;
-                    const startY = Math.random() * this.canvas.height;
-
-                    this.windParticles.push({
-                        x: startX,
-                        y: startY,
-                        dx: dx,
-                        dy: dy,
-                        speed: 2 + Math.random() * 3,
-                        length: 30 + Math.random() * 50,
-                        opacity: 0.1 + Math.random() * 0.2,
-                        wave: Math.random() * Math.PI * 2,
-                        waveSpeed: 0.02 + Math.random() * 0.03
-                    });
-                }
-            }
-
-            createFog(count) {
-                for (let i = 0; i < count; i++) {
-                    this.cloudParticles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: this.canvas.height * 0.3 + Math.random() * this.canvas.height * 0.7,
-                        size: 100 + Math.random() * 200,
-                        speed: 0.1 + Math.random() * 0.3,
-                        opacity: 0.05 + Math.random() * 0.15,
-                        blur: 50 + Math.random() * 100
-                    });
-                }
-            }
-
-            startLightning() {
-                this.lightningInterval = setInterval(() => {
-                    if (Math.random() < 0.25) {
-                        this.triggerLightning();
-                        
-                        // Double flash
-                        if (Math.random() < 0.4) {
-                            setTimeout(() => this.triggerLightning(), 100 + Math.random() * 100);
-                        }
-                    }
-                }, 4000 + Math.random() * 8000);
-            }
-
-            stopLightning() {
-                if (this.lightningInterval) {
-                    clearInterval(this.lightningInterval);
-                    this.lightningInterval = null;
-                }
-            }
-
-            triggerLightning() {
-                if (!this.lightningFlash) return;
-                
-                // Random lightning position
-                const x = 30 + Math.random() * 40;
-                const y = 10 + Math.random() * 20;
-                
-                this.lightningFlash.style.setProperty('--lightning-x', `${x}%`);
-                this.lightningFlash.style.setProperty('--lightning-y', `${y}%`);
-                
-                this.lightningFlash.classList.remove('active');
-                void this.lightningFlash.offsetWidth; // Force reflow
-                this.lightningFlash.classList.add('active');
-                
-                setTimeout(() => {
-                    this.lightningFlash.classList.remove('active');
-                }, 150);
-            }
-
-            animate() {
-                if (!this.ctx || !this.canvas) return;
-                
-                // Respect reduced motion preferences
-                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    return;
-                }
-                
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                // Draw clouds with soft blur
-                this.ctx.save();
-                this.cloudParticles.forEach(cloud => {
-                    this.ctx.globalAlpha = cloud.opacity;
-                    this.ctx.filter = `blur(${cloud.blur}px)`;
-                    this.ctx.fillStyle = '#ffffff';
-                    this.ctx.beginPath();
-                    this.ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2);
-                    this.ctx.fill();
-                    
-                    cloud.x += cloud.speed;
-                    if (cloud.x > this.canvas.width + 200) {
-                        cloud.x = -200;
-                        cloud.y = Math.random() * this.canvas.height * 0.6;
-                    }
-                });
-                this.ctx.restore();
-
-                // Draw wind particles
-                this.windParticles.forEach(wind => {
-                    this.ctx.globalAlpha = wind.opacity;
-                    this.ctx.strokeStyle = '#ffffff';
-                    this.ctx.lineWidth = 1;
-                    this.ctx.lineCap = 'round';
-
-                    const waveOffset = Math.sin(wind.wave) * 20;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(wind.x, wind.y + waveOffset);
-                    this.ctx.lineTo(
-                        wind.x + wind.length * wind.dx,
-                        wind.y + waveOffset + wind.length * wind.dy
-                    );
-                    this.ctx.stroke();
-
-                    // Move in wind direction
-                    wind.x += wind.speed * wind.dx;
-                    wind.y += wind.speed * wind.dy;
-                    wind.wave += wind.waveSpeed;
-
-                    // Reset when off-screen
-                    if (wind.x < -100 || wind.x > this.canvas.width + 100 ||
-                        wind.y < -100 || wind.y > this.canvas.height + 100) {
-                        const startX = wind.dx < 0 ? this.canvas.width + 50 : -50;
-                        wind.x = startX;
-                        wind.y = Math.random() * this.canvas.height;
-                        wind.wave = Math.random() * Math.PI * 2;
-                    }
-                });
-
-                // Draw rain and snow particles
-                this.particles.forEach(particle => {
-                    this.ctx.globalAlpha = particle.opacity;
-                    
-                    if (particle.type === 'rain') {
-                        this.ctx.strokeStyle = '#87CEEB';
-                        this.ctx.lineWidth = 1;
-                        this.ctx.lineCap = 'round';
-                        
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(particle.x, particle.y);
-                        this.ctx.lineTo(
-                            particle.x + particle.angle * particle.length, 
-                            particle.y + particle.length
-                        );
-                        this.ctx.stroke();
-                        
-                        particle.y += particle.speed;
-                        particle.x += particle.angle * 2;
-                        
-                    } else if (particle.type === 'snow') {
-                        this.ctx.fillStyle = '#ffffff';
-                        this.ctx.save();
-                        this.ctx.translate(particle.x, particle.y);
-                        this.ctx.rotate(particle.rotation);
-                        this.ctx.fillRect(-particle.size/2, -particle.size/2, particle.size, particle.size);
-                        this.ctx.restore();
-                        
-                        particle.y += particle.speed;
-                        particle.x += particle.drift * Math.sin(particle.y * 0.01);
-                        particle.rotation += particle.rotationSpeed;
-                    }
-                    
-                    // Reset particles when they fall off screen
-                    if (particle.y > this.canvas.height + 50) {
-                        particle.y = -50;
-                        particle.x = Math.random() * (this.canvas.width + 200) - 100;
-                    }
-                });
-                
-                this.ctx.globalAlpha = 1;
-                this.animationId = requestAnimationFrame(() => this.animate());
-            }
-
-            destroy() {
-                this.stop();
-                this.clearParticles();
-                if (this.canvas) {
-                    this.canvas.classList.remove('active');
-                }
-            }
-        }
-
-        function getInterpolatedWeather() {
-            // Smoothly interpolate between previous and current weather over 60 seconds
-            if (!state.currentWeather) return null;
-            if (!state.previousWeather) return state.currentWeather;
-
-            const transitionDuration = 60000; // 60 seconds
-            const elapsed = Date.now() - state.weatherTransitionStart;
-            const t = Math.min(elapsed / transitionDuration, 1);
-
-            return {
-                temperature: lerp(state.previousWeather.temperature, state.currentWeather.temperature, t),
-                windspeed: lerp(state.previousWeather.windspeed, state.currentWeather.windspeed, t),
-                winddirection: lerp(state.previousWeather.winddirection, state.currentWeather.winddirection, t),
-                humidity: lerp(state.previousWeather.humidity, state.currentWeather.humidity, t),
-                weathercode: t < 0.5 ? state.previousWeather.weathercode : state.currentWeather.weathercode,
-                time: state.currentWeather.time
-            };
-        }
-
-        function updateSkyGradient() {
-            try {
-                const weather = getInterpolatedWeather();
-                if (!weather) {
-                    // Fallback to default gradient if no weather data
-                    return;
-                }
-
-                const timeOfDay = getTimeOfDay();
-                const temp = weather.temperature;
-                const intensity = getWeatherIntensity(weather.weathercode);
-
-                // Get base color from temperature
-                let baseColor = temperatureToColor(temp);
-
-                // Adjust for time of day (brightness modulation)
-                const timeAdjustment = getTimeAdjustment(timeOfDay);
-
-                // Adjust for weather intensity (desaturation for storms)
-                const intensityFactor = intensity / 100;
-
-                // Create gradient colors
-                const color1 = adjustColorBrightness(baseColor, timeAdjustment.top - intensityFactor * 0.4);
-                const color2 = adjustColorBrightness(baseColor, timeAdjustment.middle - intensityFactor * 0.3);
-                const color3 = adjustColorBrightness(baseColor, timeAdjustment.bottom - intensityFactor * 0.2);
-
-                // Apply gradient to body using CSS variables
-                document.documentElement.style.setProperty('--sky-color-1', color1);
-                document.documentElement.style.setProperty('--sky-color-2', color2);
-                document.documentElement.style.setProperty('--sky-color-3', color3);
-
-                // Only update weather system with actual current data (not interpolated)
-                // But do it less frequently to avoid jarring changes
-                if (state.weatherSystem && state.currentWeather) {
-                    const timeSinceUpdate = Date.now() - state.weatherTransitionStart;
-                    if (timeSinceUpdate < 100) { // Only on fresh weather data
-                        const weatherData = {
-                            intensity: intensity,
-                            windDirection: state.currentWeather.winddirection,
-                            windSpeed: state.currentWeather.windspeed,
-                            humidity: state.currentWeather.humidity,
-                            weatherCode: state.currentWeather.weathercode
-                        };
-                        state.weatherSystem.updateWeatherData(weatherData);
-                    }
-                }
-
-                // Less frequent logging
-                const elapsed = Date.now() - state.weatherTransitionStart;
-                if (elapsed < 2000) {
-                    console.log(`📊 Sky updated: ${temp.toFixed(1)}°C → ${baseColor}, intensity: ${intensity}%, time: ${timeOfDay}`);
-                }
-
-            } catch (error) {
-                console.error('Error updating sky gradient:', error);
-            }
-        }
-
-        function getTimeAdjustment(timeOfDay) {
-            // Returns brightness multipliers for gradient layers
-            const adjustments = {
-                'dawn':      { top: 0.9, middle: 0.95, bottom: 1.1 },
-                'morning':   { top: 1.0, middle: 1.0, bottom: 1.0 },
-                'noon':      { top: 1.1, middle: 1.05, bottom: 1.0 },
-                'afternoon': { top: 1.0, middle: 0.95, bottom: 0.9 },
-                'sunset':    { top: 0.8, middle: 0.85, bottom: 1.0 },
-                'dusk':      { top: 0.6, middle: 0.7, bottom: 0.8 },
-                'night':     { top: 0.4, middle: 0.5, bottom: 0.6 }
-            };
-            return adjustments[timeOfDay] || adjustments.morning;
-        }
-
-        function adjustColorBrightness(hexColor, factor) {
-            // Adjust brightness of hex color by factor (0-2, where 1 is unchanged)
-            const r = parseInt(hexColor.slice(1, 3), 16);
-            const g = parseInt(hexColor.slice(3, 5), 16);
-            const b = parseInt(hexColor.slice(5, 7), 16);
-
-            const newR = Math.max(0, Math.min(255, Math.round(r * factor)));
-            const newG = Math.max(0, Math.min(255, Math.round(g * factor)));
-            const newB = Math.max(0, Math.min(255, Math.round(b * factor)));
-
-            return `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
-        }
-
-        function getAgeMessage(days) {
-            if (days < 0) {
-                const daysUntil = Math.abs(days);
-                if (daysUntil > 270) return "A new journey will begin soon...";
-                if (daysUntil > 180) return "Growing stronger each day";
-                if (daysUntil > 90) return "Almost ready to meet the world";
-                if (daysUntil > 30) return "The countdown begins!";
-                return "Any day now...";
-            }
-
-            const milestones = [
-                { days: 7, message: "Welcome to your first week!" },
-                { days: 30, message: "One month of pure joy" },
-                { days: 100, message: "100 days of wonder" },
-                { days: 183, message: "Half a year of adventures" },
-                { days: 365, message: "One year around the sun!" },
-                { days: 730, message: "Two years of endless discoveries" },
-                { days: 1095, message: "Three years of growing wisdom" },
-                { days: 1460, message: "Four years of boundless energy" },
-                { days: 1825, message: "Five years of pure magic" },
-                { days: 2190, message: "Six years and counting" },
-                { days: 2555, message: "Lucky number seven" },
-                { days: 2920, message: "Eight years of excellence" },
-                { days: 3285, message: "Nine years of brilliance" },
-                { days: 3650, message: "A decade of amazing memories" },
-                { days: 4380, message: "Twelve years of determination" },
-                { days: 5110, message: "Fourteen years of inspiration" },
-                { days: 5475, message: "Fifteen years of growth" },
-                { days: 6205, message: "Sweet sixteen!" },
-                { days: 6570, message: "Seventeen years strong" },
-                { days: 6935, message: "Eighteen years of incredible journey" }
-            ];
-
-            const lastMilestone = milestones.filter(m => m.days <= days).pop();
-            if (lastMilestone && lastMilestone.days === days) {
-                return lastMilestone.message;
-            }
-
-            const phases = [
-                { days: 30, message: "Every day brings new wonders" },
-                { days: 365, message: "Learning and discovering" },
-                { days: 1825, message: "Exploring the world with curiosity" },
-                { days: 3650, message: "Creating unforgettable memories" },
-                { days: 5475, message: "Pursuing dreams and passions" },
-                { days: 6935, message: "Building an amazing future" }
-            ];
-
-            const currentPhase = phases.filter(p => p.days <= days).pop();
-            return currentPhase ? currentPhase.message : "Growing stronger every second";
-        }
-
-        function calculateAccurateAge(birthDate, currentDate) {
-            try {
-                // Handle countdown case (before birth)
-                if (currentDate < birthDate) {
-                    const diff = birthDate - currentDate;
-                    const days = Math.floor(diff / CONSTANTS.MILLISECONDS_IN_DAY);
-                    const hours = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_DAY) / CONSTANTS.MILLISECONDS_IN_HOUR);
-                    const minutes = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_HOUR) / CONSTANTS.MILLISECONDS_IN_MINUTE);
-                    const seconds = Math.floor((diff % CONSTANTS.MILLISECONDS_IN_MINUTE) / CONSTANTS.MILLISECONDS_IN_SECOND);
-                    
-                    return {
-                        isCountdown: true,
-                        years: 0,
-                        months: 0,
-                        days: days,
-                        hours: hours,
-                        minutes: minutes,
-                        seconds: seconds,
-                        totalDays: days
-                    };
-                }
-            } catch (error) {
-                console.error('Error in calculateAccurateAge countdown:', error);
-                throw error;
-            }
-
-            // Calculate years
-            let years = currentDate.getFullYear() - birthDate.getFullYear();
-            
-            // Create anniversary date for this year
-            let anniversaryThisYear = new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate(), 
-                                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
-            
-            // If anniversary hasn't occurred this year, subtract one year
-            if (currentDate < anniversaryThisYear) {
-                years--;
-                anniversaryThisYear = new Date(currentDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate(), 
-                                              birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
-            }
-
-            // Calculate months from last anniversary
-            let months = currentDate.getMonth() - anniversaryThisYear.getMonth();
-            if (months < 0) {
-                months += 12;
-            }
-
-            // Create month anniversary date
-            let monthAnniversary = new Date(anniversaryThisYear);
-            monthAnniversary.setMonth(monthAnniversary.getMonth() + months);
-            
-            // Adjust for cases where the day doesn't exist in the target month (e.g., Jan 31 -> Feb 31)
-            if (monthAnniversary.getDate() !== birthDate.getDate()) {
-                monthAnniversary = new Date(monthAnniversary.getFullYear(), monthAnniversary.getMonth() + 1, 0, 
-                                           birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
-            }
-
-            // If current date is before month anniversary, subtract one month
-            if (currentDate < monthAnniversary) {
-                months--;
-                if (months < 0) {
-                    months = 11;
-                    years--;
-                    anniversaryThisYear = new Date(currentDate.getFullYear() - 1, birthDate.getMonth(), birthDate.getDate(), 
-                                                  birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
-                }
-                monthAnniversary = new Date(anniversaryThisYear);
-                monthAnniversary.setMonth(monthAnniversary.getMonth() + months);
-                
-                // Handle day adjustment again
-                if (monthAnniversary.getDate() !== birthDate.getDate()) {
-                    monthAnniversary = new Date(monthAnniversary.getFullYear(), monthAnniversary.getMonth() + 1, 0, 
-                                               birthDate.getHours(), birthDate.getMinutes(), birthDate.getSeconds(), birthDate.getMilliseconds());
-                }
-            }
-
-            // Calculate remaining days, hours, minutes, seconds
-            const remainingMs = currentDate - monthAnniversary;
-            const days = Math.floor(remainingMs / CONSTANTS.MILLISECONDS_IN_DAY);
-            const hours = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_DAY) / CONSTANTS.MILLISECONDS_IN_HOUR);
-            const minutes = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_HOUR) / CONSTANTS.MILLISECONDS_IN_MINUTE);
-            const seconds = Math.floor((remainingMs % CONSTANTS.MILLISECONDS_IN_MINUTE) / CONSTANTS.MILLISECONDS_IN_SECOND);
-
-            // Calculate total days for message system
-            const totalMs = currentDate - birthDate;
-            const totalDays = Math.floor(totalMs / CONSTANTS.MILLISECONDS_IN_DAY);
-
-            return {
-                isCountdown: false,
-                years: Math.max(0, years),
-                months: Math.max(0, months),
-                days: Math.max(0, days),
-                hours: Math.max(0, hours),
-                minutes: Math.max(0, minutes),
-                seconds: Math.max(0, seconds),
-                totalDays: totalDays
-            };
-        }
-
-        function updateTimer() {
-            if (state.hasError || state.isHidden) return;
-            
-            try {
-                const now = new Date();
-                
-                // Calculate accurate age
-                const age = calculateAccurateAge(state.birthDate, now);
-                
-                // Update timer display efficiently
-                updateTimerDisplay(age);
-                
-                // Update message with accurate day calculation
-                updateMessage(age.totalDays);
-                
-                // Update progress for screen readers
-                updateProgressForScreenReaders(now);
-                
-                // Update sky gradient based on current time (weather updates separately)
-                updateSkyGradient();
-                
-            } catch (error) {
-                console.error('Error in updateTimer:', error);
-                showError('Timer update failed');
-            }
-        }
-
-        function updateTimerDisplay(age) {
-            try {
-                const timerElement = document.getElementById('timer');
-                if (timerElement) {
-                    // Remove loading state
-                    const loadingElement = timerElement.querySelector('.loading');
-                    if (loadingElement) {
-                        loadingElement.remove();
-                    }
-                    
-                    // Only update if the content is different (performance optimization)
-                    const newHTML = getTimeHTML(age);
-                    if (timerElement.innerHTML !== newHTML) {
-                        timerElement.innerHTML = newHTML;
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating timer display:', error);
-            }
-        }
-
-        function updateMessage(totalDays) {
-            try {
-                const messageElement = document.getElementById('message');
-                if (messageElement) {
-                    const newMessage = getAgeMessage(totalDays);
-                    
-                    if (state.lastMessage !== newMessage) {
-                        messageElement.style.opacity = '0';
-                        setTimeout(() => {
-                            if (messageElement) {
-                                messageElement.textContent = newMessage;
-                                messageElement.style.opacity = '1';
-                                state.lastMessage = newMessage;
-                            }
-                        }, CONSTANTS.MESSAGE_TRANSITION_DELAY);
-                    }
-                }
-            } catch (error) {
-                console.error('Error updating message:', error);
-            }
-        }
-
-        function updateProgressForScreenReaders(now) {
-            try {
-                const progressElement = document.getElementById('progress-value');
-                if (progressElement) {
-                    const totalJourney = state.eighteenYears - state.birthDate;
-                    const progress = ((now - state.birthDate) / totalJourney) * 100;
-                    const roundedProgress = Math.round(Math.max(0, Math.min(progress, 100)));
-                    progressElement.textContent = `${roundedProgress}%`;
-                }
-            } catch (error) {
-                console.error('Error updating progress for screen readers:', error);
-            }
-        }
-
-        function getTimeHTML(age) {
-            // Handle countdown case (before birth)
-            if (age.isCountdown) {
-                return `
-                    <div class="time-segment">
-                        <span class="time-value">${age.days}</span>
-                        <span class="time-label">days until arrival</span>
-                    </div>
-                    <div class="time-segment">
-                        <span class="time-value">${String(age.hours).padStart(2, '0')}</span>
-                        <span class="time-label">hours</span>
-                    </div>
-                    <div class="time-segment">
-                        <span class="time-value">${String(age.minutes).padStart(2, '0')}</span>
-                        <span class="time-label">minutes</span>
-                    </div>
-                    <div class="time-segment">
-                        <span class="time-value">${String(age.seconds).padStart(2, '0')}</span>
-                        <span class="time-label">seconds</span>
-                    </div>
-                `;
-            }
-
-            // Build the time display with accurate calculations
-            const segments = [];
-
-            // Add years if present
-            if (age.years > 0) {
-                segments.push(`
-                    <div class="time-segment">
-                        <span class="time-value">${age.years}</span>
-                        <span class="time-label">year${age.years > 1 ? 's' : ''} of life</span>
-                    </div>
-                `);
-            }
-
-            // Add months if present
-            if (age.months > 0) {
-                const suffix = age.years > 0 ? '' : ' of life';
-                segments.push(`
-                    <div class="time-segment">
-                        <span class="time-value">${age.months}</span>
-                        <span class="time-label">month${age.months > 1 ? 's' : ''}${suffix}</span>
-                    </div>
-                `);
-            }
-
-            // Add days if present
-            if (age.days > 0) {
-                const suffix = (age.years === 0 && age.months === 0) ? ' of life' : '';
-                segments.push(`
-                    <div class="time-segment">
-                        <span class="time-value">${age.days}</span>
-                        <span class="time-label">day${age.days > 1 ? 's' : ''}${suffix}</span>
-                    </div>
-                `);
-            }
-
-            // Always show hours, minutes, and seconds
-            segments.push(`
-                <div class="time-segment">
-                    <span class="time-value">${String(age.hours).padStart(2, '0')}</span>
-                    <span class="time-label">hours</span>
-                </div>
-                <div class="time-segment">
-                    <span class="time-value">${String(age.minutes).padStart(2, '0')}</span>
-                    <span class="time-label">minutes</span>
-                </div>
-                <div class="time-segment">
-                    <span class="time-value">${String(age.seconds).padStart(2, '0')}</span>
-                    <span class="time-label">seconds</span>
-                </div>
-            `);
-
-            return segments.join('');
-        }
-
-
-
-        function startTimers() {
-            if (state.hasError) return;
-            
-            try {
-                // Clear existing intervals
-                if (state.timerInterval) clearInterval(state.timerInterval);
-                if (state.weatherInterval) clearInterval(state.weatherInterval);
-                
-                // Start timer
-                state.timerInterval = setInterval(updateTimer, CONSTANTS.UPDATE_INTERVAL);
-                
-                // Start weather updates
-                state.weatherInterval = setInterval(fetchWeatherData, CONSTANTS.WEATHER_UPDATE_INTERVAL);
-                
-                // Initial updates
-                updateTimer();
-                updateWeatherWidget(); // Initialize widget in loading state
-                fetchWeatherData(); // Initial weather fetch
-                
-            } catch (error) {
-                console.error('Error starting timers:', error);
-                showError('Failed to start timers');
-            }
-        }
-
-        function cleanup() {
-            if (state.timerInterval) clearInterval(state.timerInterval);
-            if (state.weatherInterval) clearInterval(state.weatherInterval);
-            if (state.weatherSystem) {
-                state.weatherSystem.destroy();
-                state.weatherSystem = null;
-            }
-        }
-
-        // Initialize the application
-        function init() {
-            try {
-                if (!initializeDates()) return;
-                
-                // Initialize modern weather system
-                state.weatherSystem = new WeatherSystem();
-                
-                // Add event listeners
-                document.addEventListener('visibilitychange', handleVisibilityChange);
-                window.addEventListener('beforeunload', cleanup);
-                
-                // Start the application
-                startTimers();
-                
-            } catch (error) {
-                console.error('Failed to initialize application:', error);
-                showError('Application failed to start');
-            }
-        }
-
-        // Testing functions for development
-        window.testSky = function(timeOfDay, weatherCondition = 'clear') {
-            console.log(`🧪 Testing sky: ${timeOfDay} + ${weatherCondition}`);
-            
-            // Temporarily override time/weather
-            const originalGetTimeOfDay = getTimeOfDay;
-            const originalGetWeatherCondition = getWeatherCondition;
-            
-            window.getTimeOfDay = () => timeOfDay;
-            window.getWeatherCondition = () => weatherCondition;
-            
-            // Force update
-            updateSkyGradient();
-            if (state.weatherSystem) {
-                state.weatherSystem.changeWeather(weatherCondition);
-            }
-            
-            // Restore original functions after 5 seconds
-            setTimeout(() => {
-                window.getTimeOfDay = originalGetTimeOfDay;
-                window.getWeatherCondition = originalGetWeatherCondition;
-                updateSkyGradient();
-                console.log('🧪 Test ended, restored normal sky behavior');
-            }, 5000);
-        };
-
-        window.testAllSkies = function() {
-            const times = ['dawn', 'morning', 'noon', 'afternoon', 'sunset', 'dusk', 'night'];
-            const weathers = ['clear', 'cloudy', 'light-rain', 'heavy-rain', 'snow', 'fog', 'thunderstorm'];
-            
-            console.log('🧪 Testing all sky combinations...');
-            
-            let index = 0;
-            const testNext = () => {
-                if (index < times.length) {
-                    const time = times[index];
-                    weathers.forEach((weather, wIndex) => {
-                        setTimeout(() => {
-                            testSky(time, weather);
-                            console.log(`🧪 Testing ${time} + ${weather} (${index * weathers.length + wIndex + 1}/${times.length * weathers.length})`);
-                        }, (index * weathers.length + wIndex) * 2000);
-                    });
-                    index++;
-                }
-            };
-            
-            testNext();
-        };
-
-        // Add helpful console message
-        console.log(`
-🌈 Sky System Ready!
-Commands:
-• testSky('dawn', 'clear') - Test specific time/weather
-• testSky('sunset', 'thunderstorm') - Test dramatic combinations  
-• testAllSkies() - Cycle through all combinations
-• Available times: dawn, morning, noon, afternoon, sunset, dusk, night
-• Available weather: clear, cloudy, light-rain, heavy-rain, snow, fog, thunderstorm
-        `);
-
-        // Start when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
-    </script>
+  </section>
+
+  <footer id="note">This domain is kept for Yakov until their 18th birthday.</footer>
+</main>
+
+
+<script>
+"use strict";
+
+// The only lines that differ between ilyaaltman.com and yakovaltman.com.
+const SITE = { first: "Yakov", last: "Altman", birth: "2026-01-26T17:51:00Z" };
+
+const PLACE = { name: "Haifa", lat: 32.794, lon: 34.9896, tz: "Asia/Jerusalem" };
+const WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=" + PLACE.lat + "&longitude=" + PLACE.lon +
+  "&current=temperature_2m,weather_code,cloud_cover,wind_speed_10m,is_day&timezone=" + encodeURIComponent(PLACE.tz);
+const REDUCED_MOTION = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const $ = (id) => document.getElementById(id);
+
+// ---------------- Age ----------------
+
+// Add calendar months in UTC, clamping to the end of shorter months (Jan 31 + 1 month = Feb 28/29).
+function addMonths(date, n) {
+  const d = new Date(date);
+  const day = d.getUTCDate();
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() + n);
+  const last = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate();
+  d.setUTCDate(Math.min(day, last));
+  return d;
+}
+
+function ageAt(birth, now) {
+  let months = (now.getUTCFullYear() - birth.getUTCFullYear()) * 12 + (now.getUTCMonth() - birth.getUTCMonth());
+  let anchor = addMonths(birth, months);
+  if (anchor > now) anchor = addMonths(birth, --months);
+  let rest = Math.floor((now - anchor) / 1000);
+  const days = Math.floor(rest / 86400); rest %= 86400;
+  return {
+    years: Math.floor(months / 12),
+    months: months % 12,
+    days,
+    hours: Math.floor(rest / 3600),
+    minutes: Math.floor((rest % 3600) / 60),
+    seconds: rest % 60,
+    totalDays: Math.floor((now - birth) / 86400000),
+  };
+}
+
+const plural = (n, word) => n + " " + word + (n === 1 ? "" : "s");
+const pad = (n) => String(n).padStart(2, "0");
+const longDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: PLACE.tz });
+const clockFmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: PLACE.tz });
+const ordinal = (n) => n + ({ 1: "st", 2: "nd", 3: "rd" }[(n % 100 > 10 && n % 100 < 14) ? 0 : n % 10] || "th");
+
+function renderStatic() {
+  const birth = new Date(SITE.birth);
+  const eighteen = addMonths(birth, 18 * 12);
+  document.title = SITE.first + " " + SITE.last;
+  $("name").innerHTML = SITE.first + " <em>" + SITE.last + "</em>";
+  $("born").textContent = "Born " + longDate.format(birth);
+  $("ruler-start").textContent = birth.getUTCFullYear();
+  $("ruler-end").textContent = eighteen.getUTCFullYear();
+  $("note").textContent = "This domain is being kept for " + SITE.first + " until their 18th birthday on " +
+    longDate.format(eighteen) + ".";
+
+  const ticks = $("ticks");
+  ticks.querySelectorAll("i").forEach((el) => el.remove());
+  for (let y = 0; y <= 18; y++) {
+    const i = document.createElement("i");
+    if (y % 6 === 0) i.className = "major";
+    i.style.left = (y / 18 * 100) + "%";
+    ticks.appendChild(i);
+  }
+}
+
+function tick() {
+  const now = new Date();
+  const birth = new Date(SITE.birth);
+  const a = ageAt(birth, now);
+  const parts = [];
+  if (a.years) parts.push(plural(a.years, "year"));
+  if (a.months) parts.push(plural(a.months, "month"));
+  parts.push(plural(a.days, "day"));
+  const sentence = parts.length > 1 ? parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1] : parts[0];
+  const ageText = sentence.replace(/(\d+)/g, '<span class="n">$1</span>') +
+    ' <span style="opacity:.6">· ' + a.totalDays.toLocaleString("en-GB") + " days old</span>";
+  if ($("age").innerHTML !== ageText) $("age").innerHTML = ageText;
+  $("clock").textContent = pad(a.hours) + ":" + pad(a.minutes) + ":" + pad(a.seconds);
+  $("local-time").textContent = clockFmt.format(now);
+
+  const eighteen = addMonths(birth, 18 * 12);
+  const p = Math.min(1, Math.max(0, (now - birth) / (eighteen - birth)));
+  $("done").style.width = (p * 100) + "%";
+  $("now").style.left = (p * 100) + "%";
+  const nextBirthday = addMonths(birth, (a.years + 1) * 12);
+  const inDays = Math.ceil((nextBirthday - now) / 86400000);
+  $("ruler-mid").innerHTML = p >= 1
+    ? "<b>18 years.</b> The domain is ready to hand over."
+    : "<b>Year " + (a.years + 1) + " of 18</b> · " + ordinal(a.years + 1) + " birthday " +
+      (inDays <= 1 ? "is tomorrow" : "in " + inDays + " days");
+}
+
+// ---------------- Sun and moon ----------------
+
+const RAD = Math.PI / 180;
+function sunPosition(date, lat, lon) {
+  const d = date / 86400000 + 2440587.5 - 2451545.0;
+  const g = (357.529 + 0.98560028 * d) * RAD;
+  const q = 280.459 + 0.98564736 * d;
+  const L = (q + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g)) * RAD;
+  const e = (23.439 - 0.00000036 * d) * RAD;
+  const ra = Math.atan2(Math.cos(e) * Math.sin(L), Math.cos(L));
+  const dec = Math.asin(Math.sin(e) * Math.sin(L));
+  const gmst = (18.697374558 + 24.06570982441908 * d) % 24;
+  const H = ((gmst * 15 + lon) * RAD) - ra;
+  return { ...horizontal(H, dec, lat * RAD), dec, H };
+}
+function horizontal(H, dec, phi) {
+  const alt = Math.asin(Math.sin(phi) * Math.sin(dec) + Math.cos(phi) * Math.cos(dec) * Math.cos(H));
+  const az = Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(phi) - Math.tan(dec) * Math.cos(phi)) + Math.PI;
+  return { alt: alt / RAD, az: az / RAD };
+}
+function moonFor(date, sun) {
+  const phase = (((date / 86400000 + 2440587.5) - 2451550.1) / 29.530588853) % 1; // 0 new, .5 full
+  const H = sun.H - phase * 2 * Math.PI;
+  return { phase, ...horizontal(H, -sun.dec * 0.4, PLACE.lat * RAD) };
+}
+
+// ---------------- Sky colours ----------------
+
+// Keyed by sun altitude in degrees: [zenith, middle, horizon]
+const SKY_KEYS = [
+  [-90, ["#03050e", "#070b1a", "#0e1430"]],
+  [-14, ["#05081a", "#0c1230", "#1a2148"]],
+  [-8,  ["#0b1233", "#22285a", "#5a3f6e"]],
+  [-3,  ["#1a2556", "#53508a", "#e0845f"]],
+  [1,   ["#2b4a86", "#8a7fa6", "#f6a35c"]],
+  [6,   ["#3c6fb3", "#8fb0d6", "#f3cf9a"]],
+  [14,  ["#3a7cc8", "#86b9e6", "#cfe5f2"]],
+  [35,  ["#2d72c6", "#6eaee8", "#bfe0f6"]],
+  [90,  ["#2a6cc2", "#68aae6", "#b8dcf5"]],
+];
+const hexToRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+const css = (c, a = 1) => "rgba(" + c.map(Math.round).join(",") + "," + a + ")";
+const luminance = (c) => (0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]) / 255;
+
+function skyColors(alt, wx) {
+  let i = SKY_KEYS.findIndex(([a]) => a >= alt);
+  if (i <= 0) i = 1;
+  const [a0, c0] = SKY_KEYS[i - 1], [a1, c1] = SKY_KEYS[i];
+  const t = Math.min(1, Math.max(0, (alt - a0) / (a1 - a0)));
+  let cols = c0.map((c, k) => mix(hexToRgb(c), hexToRgb(c1[k]), t));
+  // Overcast skies lose colour and light.
+  const grey = alt > 0 ? [138, 148, 162] : alt > -8 ? [70, 72, 88] : [16, 18, 26];
+  const dull = Math.min(.85, wx.cloud * .55 + (wx.rain ? .25 : 0) + (wx.storm ? .2 : 0));
+  cols = cols.map((c) => mix(c, grey, dull));
+  if (wx.storm) cols = cols.map((c) => c.map((v) => v * .6));
+  return cols;
+}
+
+// ---------------- Weather ----------------
+
+function weatherFromCode(code, cloudCover) {
+  const rain = [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code);
+  const storm = code >= 95;
+  const snow = [71, 73, 75, 77, 85, 86].includes(code);
+  const fog = code === 45 || code === 48;
+  return { cloud: Math.max(cloudCover / 100, rain || storm || snow ? .85 : 0), rain: rain || storm, storm, snow, fog,
+           heavy: [55, 65, 67, 82].includes(code) || storm };
+}
+const WX_LABEL = { 0: "clear", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog",
+  51: "drizzle", 53: "drizzle", 55: "drizzle", 61: "light rain", 63: "rain", 65: "heavy rain",
+  71: "snow", 73: "snow", 75: "heavy snow", 80: "showers", 81: "showers", 82: "heavy showers",
+  95: "thunderstorm", 96: "thunderstorm", 99: "thunderstorm" };
+
+let liveWx = { cloud: .1, rain: false, storm: false, snow: false, fog: false, heavy: false };
+async function loadWeather() {
+  try {
+    const res = await fetch(WEATHER_URL);
+    if (!res.ok) throw new Error(res.status);
+    const { current } = await res.json();
+    liveWx = weatherFromCode(current.weather_code, current.cloud_cover);
+    $("wx").textContent = "· " + Math.round(current.temperature_2m) + "° · " + (WX_LABEL[current.weather_code] || "—") +
+      " · wind " + Math.round(current.wind_speed_10m) + " km/h";
+    sky.rebuild();
+  } catch {
+    // Offline or blocked: the sky still follows the sun, without weather.
+  }
+}
+
+// ---------------- Canvas sky ----------------
+
+const DEMO_TIMES = { dawn: -2.5, noon: 60, sunset: 2, night: -30 };
+const DEMO_WX = {
+  clear:  { cloud: .05, rain: false, storm: false, snow: false, fog: false, heavy: false },
+  clouds: { cloud: .7, rain: false, storm: false, snow: false, fog: false, heavy: false },
+  rain:   { cloud: .9, rain: true, storm: false, snow: false, fog: false, heavy: false },
+  storm:  { cloud: 1, rain: true, storm: true, snow: false, fog: false, heavy: true },
+  fog:    { cloud: .5, rain: false, storm: false, snow: false, fog: true, heavy: false },
+};
+// Try other skies with ?time=dawn|noon|sunset|night and ?weather=clear|clouds|rain|storm|fog
+const params = new URLSearchParams(location.search);
+const demo = { time: DEMO_TIMES[params.get("time")] !== undefined ? params.get("time") : "live",
+               wx: DEMO_WX[params.get("weather")] ? params.get("weather") : "live" };
+
+const sky = (() => {
+  const canvas = $("sky"), ctx = canvas.getContext("2d");
+  let W = 0, H = 0, dpr = 1;
+  let stars = [], clouds = [], drops = [], flakes = [];
+  let state = null, flash = 0, nextFlash = 0;
+
+  function resize() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    stars = Array.from({ length: Math.round(W * H / 2600) }, () => ({
+      x: Math.random() * W, y: Math.random() * H * .8, r: Math.random() * 1.1 + .25, p: Math.random() * 6.28 }));
+    rebuild();
+  }
+
+  function currentState() {
+    const now = new Date();
+    const sun = sunPosition(now, PLACE.lat, PLACE.lon);
+    if (demo.time !== "live") { sun.alt = DEMO_TIMES[demo.time]; sun.az = demo.time === "dawn" ? 100 : demo.time === "noon" ? 180 : 255; }
+    const moon = moonFor(now, sun);
+    if (demo.time === "night") { moon.alt = 40; moon.az = 140; }
+    const wx = demo.wx === "live" ? liveWx : DEMO_WX[demo.wx];
+    return { sun, moon, wx, cols: skyColors(sun.alt, wx) };
+  }
+
+  // Cloud sprites are pre-blurred once per sky change, then just drift.
+  function makeCloud(wx, cols, alt) {
+    const w = 260 + Math.random() * 380, h = w * .42;
+    const c = document.createElement("canvas");
+    c.width = w + 120; c.height = h + 120;
+    const g = c.getContext("2d");
+    g.filter = "blur(18px)";
+    const light = alt > 4 ? [250, 251, 253] : alt > -6 ? mix(cols[2], [255, 236, 220], .35) : mix(cols[0], [60, 64, 84], .6);
+    const shade = mix(light, [90, 98, 112], wx.rain ? .6 : .25);
+    for (let k = 0; k < 7; k++) {
+      const x = 60 + w * (.15 + Math.random() * .7), y = 60 + h * (.35 + Math.random() * .35), r = h * (.25 + Math.random() * .3);
+      const grd = g.createRadialGradient(x, y - r * .3, r * .1, x, y, r);
+      grd.addColorStop(0, css(light, .95)); grd.addColorStop(1, css(shade, 0));
+      g.fillStyle = grd; g.beginPath(); g.arc(x, y, r, 0, 6.29); g.fill();
+    }
+    return { img: c, x: Math.random() * (W + c.width) - c.width, y: Math.random() * H * .55 - 40,
+             v: (.04 + Math.random() * .1) * (wx.storm ? 4 : 1), a: .55 + Math.random() * .4 };
+  }
+
+  function rebuild() {
+    state = currentState();
+    const { wx, cols, sun } = state;
+    const n = Math.round(wx.cloud * (W / 90));
+    clouds = Array.from({ length: n }, () => makeCloud(wx, cols, sun.alt));
+    drops = wx.rain ? Array.from({ length: Math.round(W / (wx.heavy ? 4 : 8)) }, () =>
+      ({ x: Math.random() * W, y: Math.random() * H, l: 10 + Math.random() * 16, v: 9 + Math.random() * 6 })) : [];
+    flakes = wx.snow ? Array.from({ length: Math.round(W / 6) }, () =>
+      ({ x: Math.random() * W, y: Math.random() * H, r: 1 + Math.random() * 2.2, v: .4 + Math.random() * .8, p: Math.random() * 6.28 })) : [];
+    // Pick text colour from the brightness behind the name (lower third of the sky).
+    const behind = mix(state.cols[1], state.cols[2], .6);
+    document.documentElement.classList.toggle("light-sky", luminance(behind) > .62 && !wx.storm);
+  }
+
+  function skyPoint(alt, az) {
+    // Map azimuth 70..290 across the screen, altitude 0..70 from horizon to top.
+    const x = ((az - 70) / 220) * W;
+    const y = H * .86 - (alt / 70) * H * .8;
+    return [x, y];
+  }
+
+  function draw(t) {
+    const { sun, moon, wx, cols } = state;
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, css(cols[0])); g.addColorStop(.55, css(cols[1])); g.addColorStop(1, css(cols[2]));
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+    // Stars fade in through twilight and hide behind cloud.
+    const starA = Math.min(1, Math.max(0, (-sun.alt - 4) / 10)) * (1 - wx.cloud * .9);
+    if (starA > 0.02) {
+      for (const s of stars) {
+        const tw = REDUCED_MOTION ? .8 : .55 + .45 * Math.sin(t / 900 + s.p);
+        ctx.fillStyle = "rgba(255,255,250," + (starA * tw).toFixed(3) + ")";
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.29); ctx.fill();
+      }
+    }
+
+    // Sun glow and disc.
+    if (sun.alt > -10) {
+      const [x, y] = skyPoint(Math.max(sun.alt, -3), sun.az);
+      const vis = (1 - wx.cloud * .75) * Math.min(1, (sun.alt + 10) / 10);
+      const warm = sun.alt < 8 ? [255, 170, 90] : [255, 244, 214];
+      const R = Math.max(W, H) * (sun.alt < 8 ? .55 : .4);
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, R);
+      glow.addColorStop(0, css(warm, .55 * vis)); glow.addColorStop(1, css(warm, 0));
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+      if (sun.alt > -1 && wx.cloud < .8) {
+        ctx.fillStyle = css(sun.alt < 8 ? [255, 214, 160] : [255, 252, 238], .95 * (1 - wx.cloud));
+        ctx.beginPath(); ctx.arc(x, y, Math.min(W, H) * .035, 0, 6.29); ctx.fill();
+      }
+    }
+
+    // Moon with its phase, when the sun is down.
+    if (sun.alt < -2 && moon.alt > 2 && wx.cloud < .85) {
+      const [x, y] = skyPoint(moon.alt, Math.min(285, Math.max(75, moon.az)));
+      const r = Math.min(W, H) * .028, a = (1 - wx.cloud) * Math.min(1, (-sun.alt - 2) / 6);
+      const halo = ctx.createRadialGradient(x, y, r, x, y, r * 7);
+      halo.addColorStop(0, "rgba(220,226,255," + (.18 * a) + ")"); halo.addColorStop(1, "rgba(220,226,255,0)");
+      ctx.fillStyle = halo; ctx.beginPath(); ctx.arc(x, y, r * 7, 0, 6.29); ctx.fill();
+      drawMoon(x, y, r, moon.phase, a);
+    }
+
+    for (const c of clouds) {
+      if (!REDUCED_MOTION) { c.x += c.v; if (c.x > W) c.x = -c.img.width; }
+      ctx.globalAlpha = c.a; ctx.drawImage(c.img, c.x, c.y); ctx.globalAlpha = 1;
+    }
+
+    if (wx.fog) {
+      const f = ctx.createLinearGradient(0, H * .25, 0, H);
+      const fc = sun.alt > 0 ? [226, 230, 236] : [90, 96, 112];
+      f.addColorStop(0, css(fc, 0)); f.addColorStop(1, css(fc, .75));
+      ctx.fillStyle = f; ctx.fillRect(0, 0, W, H);
+    }
+
+    if (drops.length) {
+      ctx.strokeStyle = sun.alt > 0 ? "rgba(235,242,250,.38)" : "rgba(190,205,230,.3)";
+      ctx.lineWidth = 1; ctx.beginPath();
+      for (const d of drops) {
+        if (!REDUCED_MOTION) { d.y += d.v; d.x -= d.v * .18; if (d.y > H) { d.y = -d.l; d.x = Math.random() * W * 1.2; } }
+        ctx.moveTo(d.x, d.y); ctx.lineTo(d.x + d.l * .18, d.y - d.l);
+      }
+      ctx.stroke();
+    }
+    for (const f of flakes) {
+      if (!REDUCED_MOTION) { f.y += f.v; f.x += Math.sin(t / 1400 + f.p) * .35; if (f.y > H) f.y = -4; }
+      ctx.fillStyle = "rgba(255,255,255,.85)"; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.29); ctx.fill();
+    }
+
+    if (wx.storm && !REDUCED_MOTION) {
+      if (t > nextFlash) { flash = 1; nextFlash = t + 5000 + Math.random() * 9000; }
+      if (flash > 0) { ctx.fillStyle = "rgba(235,240,255," + (flash * .55).toFixed(3) + ")"; ctx.fillRect(0, 0, W, H); flash -= .06; }
+    }
+  }
+
+  function drawMoon(x, y, r, phase, a) {
+    ctx.save();
+    ctx.fillStyle = "rgba(40,46,70," + (.5 * a) + ")";
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.29); ctx.fill();
+    // Lit part: half disc plus an ellipse that grows or carves the terminator.
+    const waxing = phase < .5, k = Math.cos(phase * 2 * Math.PI);
+    ctx.fillStyle = "rgba(246,244,232," + a + ")";
+    ctx.beginPath();
+    ctx.arc(x, y, r, -Math.PI / 2, Math.PI / 2, !waxing);
+    ctx.ellipse(x, y, Math.abs(k) * r, r, 0, Math.PI / 2, -Math.PI / 2, (k > 0) === waxing);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  let last = 0;
+  function frame(t) {
+    if (t - last > 60000) { state = currentState(); last = t; }
+    draw(t);
+    if (!REDUCED_MOTION) requestAnimationFrame(frame);
+  }
+
+  return {
+    start() { resize(); addEventListener("resize", resize); requestAnimationFrame(frame); },
+    rebuild() { rebuild(); if (REDUCED_MOTION) draw(0); },
+  };
+})();
+
+
+renderStatic();
+tick();
+setInterval(tick, 1000);
+sky.start();
+loadWeather();
+setInterval(loadWeather, 10 * 60 * 1000);
+</script>
 </body>
 </html>
