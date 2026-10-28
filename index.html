@@ -20,7 +20,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Golos+Text:wght@400;500;600&display=swap">
 <style>
   /* Layout: full-bleed live sky; name and age sit low-left like a caption on the horizon; an 18-year ruler underneath. */
   :root {
@@ -28,8 +28,8 @@
     --ink-soft: rgba(246, 243, 238, .72);
     --ink-faint: rgba(246, 243, 238, .28);
     --night: #070b1a;
-    --font-display: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-    --font-body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Instrument Serif", "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+    --font-body: "Hanken Grotesk", "Golos Text", system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
     color-scheme: dark;
   }
@@ -154,18 +154,18 @@
 
 <main class="stage">
   <div class="top">
-    <span><b>Haifa</b> <span id="wx">· sky by the sun</span></span>
-    <span class="mono"><span class="hide-sm">local time </span><span id="local-time">--:--</span></span>
+    <span><b id="place">Haifa</b> <span id="wx">· sky by the sun</span></span>
+    <span class="mono"><span class="hide-sm" id="local-label">local time </span><span id="local-time">--:--</span></span>
   </div>
 
   <section class="hero" aria-labelledby="name">
     <p class="eyebrow" id="born">Born</p>
     <h1 id="name">Yakov Altman</h1>
     <p class="age" id="age" aria-live="off">&nbsp;</p>
-    <p class="clock"><span id="clock">00:00:00</span><small>hours · minutes · seconds</small></p>
+    <p class="clock"><span id="clock">00:00:00</span><small id="units">hours · minutes · seconds</small></p>
   </section>
 
-  <section class="ruler" aria-label="Progress toward 18">
+  <section class="ruler" id="ruler" aria-label="Progress toward 18">
     <div class="ticks" id="ticks"><span class="line"></span><span class="done" id="done"></span><span class="now" id="now"></span></div>
     <div class="ruler-labels">
       <span id="ruler-start"></span>
@@ -182,7 +182,7 @@
 "use strict";
 
 // The only lines that differ between ilyaaltman.com and yakovaltman.com.
-const SITE = { first: "Yakov", last: "Altman", birth: "2026-01-26T17:51:00Z" };
+const SITE = { first: "Yakov", last: "Altman", ru: { first: "Яков", last: "Альтман", genitive: "Якова" }, birth: "2026-01-26T17:51:00Z" };
 
 const PLACE = { name: "Haifa", lat: 32.794, lon: 34.9896, tz: "Asia/Jerusalem" };
 const WEATHER_URL = "https://api.open-meteo.com/v1/forecast?latitude=" + PLACE.lat + "&longitude=" + PLACE.lon +
@@ -221,22 +221,79 @@ function ageAt(birth, now) {
   };
 }
 
-const plural = (n, word) => n + " " + word + (n === 1 ? "" : "s");
-const pad = (n) => String(n).padStart(2, "0");
-const longDate = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: PLACE.tz });
-const clockFmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: PLACE.tz });
+// ---------------- Language ----------------
+
+// Russian when the browser's language is Russian; ?lang=en or ?lang=ru forces one.
+const LANG = /^ru\b/i.test(new URLSearchParams(location.search).get("lang") || navigator.language || "") ? "ru" : "en";
+const LOCALE = LANG === "ru" ? "ru-RU" : "en-GB";
+
+const enPlural = (n, word) => n + " " + word + (n === 1 ? "" : "s");
+// forms: [1 год, 2 года, 5 лет]
+function ruPlural(n, forms) {
+  const m10 = n % 10, m100 = n % 100;
+  const form = m10 === 1 && m100 !== 11 ? 0 : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? 1 : 2;
+  return n + " " + forms[form];
+}
+const joinList = (parts, and) => parts.length > 1 ? parts.slice(0, -1).join(", ") + " " + and + " " + parts[parts.length - 1] : parts[0];
 const ordinal = (n) => n + ({ 1: "st", 2: "nd", 3: "rd" }[(n % 100 > 10 && n % 100 < 14) ? 0 : n % 10] || "th");
+
+const TEXT = {
+  en: {
+    first: SITE.first, last: SITE.last,
+    place: "Haifa", skyBySun: "· sky by the sun", localTime: "local time ", units: "hours · minutes · seconds",
+    rulerLabel: "Progress toward 18",
+    born: (date) => "Born " + date,
+    age: (a) => joinList([a.years && enPlural(a.years, "year"), a.months && enPlural(a.months, "month"), enPlural(a.days, "day")].filter(Boolean), "and"),
+    daysOld: (n) => n + " days old",
+    note: (date) => "This domain is being kept for " + SITE.first + " until their 18th birthday on " + date + ".",
+    year: (y) => "Year " + y + " of 18",
+    nextBirthday: (y, inDays) => ordinal(y) + " birthday " + (inDays <= 1 ? "is tomorrow" : "in " + inDays + " days"),
+    grownUp: "<b>18 years.</b> The domain is ready to hand over.",
+    weather: { 0: "clear", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog",
+      51: "drizzle", 53: "drizzle", 55: "drizzle", 61: "light rain", 63: "rain", 65: "heavy rain",
+      71: "snow", 73: "snow", 75: "heavy snow", 80: "showers", 81: "showers", 82: "heavy showers",
+      95: "thunderstorm", 96: "thunderstorm", 99: "thunderstorm" },
+    wind: (kmh) => "wind " + kmh + " km/h",
+  },
+  ru: {
+    first: SITE.ru.first, last: SITE.ru.last,
+    place: "Хайфа", skyBySun: "· небо по солнцу", localTime: "местное время ", units: "часы · минуты · секунды",
+    rulerLabel: "Путь к 18 годам",
+    born: (date) => "Дата рождения: " + date,
+    age: (a) => joinList([a.years && ruPlural(a.years, ["год", "года", "лет"]), a.months && ruPlural(a.months, ["месяц", "месяца", "месяцев"]),
+      ruPlural(a.days, ["день", "дня", "дней"])].filter(Boolean), "и"),
+    daysOld: (n) => ruPlural(n, ["день", "дня", "дней"]) + " от роду",
+    note: (date) => "Этот домен хранится для " + SITE.ru.genitive + " до 18-летия, которое наступит " + date + (date.endsWith(".") ? "" : "."),
+    year: (y) => "Год " + y + " из 18",
+    nextBirthday: (y, inDays) => y + "-й день рождения " + (inDays <= 1 ? "завтра" : "через " + ruPlural(inDays, ["день", "дня", "дней"])),
+    grownUp: "<b>18 лет.</b> Домен готов к передаче.",
+    weather: { 0: "ясно", 1: "почти ясно", 2: "переменная облачность", 3: "пасмурно", 45: "туман", 48: "туман",
+      51: "морось", 53: "морось", 55: "морось", 61: "небольшой дождь", 63: "дождь", 65: "сильный дождь",
+      71: "снег", 73: "снег", 75: "сильный снег", 80: "ливень", 81: "ливень", 82: "сильный ливень",
+      95: "гроза", 96: "гроза", 99: "гроза" },
+    wind: (kmh) => "ветер " + kmh + " км/ч",
+  },
+}[LANG];
+
+const pad = (n) => String(n).padStart(2, "0");
+const longDate = new Intl.DateTimeFormat(LOCALE, { day: "numeric", month: "long", year: "numeric", timeZone: PLACE.tz });
+const clockFmt = new Intl.DateTimeFormat(LOCALE, { hour: "2-digit", minute: "2-digit", timeZone: PLACE.tz });
 
 function renderStatic() {
   const birth = new Date(SITE.birth);
   const eighteen = addMonths(birth, 18 * 12);
-  document.title = SITE.first + " " + SITE.last;
-  $("name").innerHTML = SITE.first + " <em>" + SITE.last + "</em>";
-  $("born").textContent = "Born " + longDate.format(birth);
+  document.documentElement.lang = LANG;
+  document.title = TEXT.first + " " + TEXT.last;
+  $("name").innerHTML = TEXT.first + " <em>" + TEXT.last + "</em>";
+  $("born").textContent = TEXT.born(longDate.format(birth));
+  $("place").textContent = TEXT.place;
+  $("wx").textContent = TEXT.skyBySun;
+  $("local-label").textContent = TEXT.localTime;
+  $("units").textContent = TEXT.units;
+  $("ruler").setAttribute("aria-label", TEXT.rulerLabel);
   $("ruler-start").textContent = birth.getUTCFullYear();
   $("ruler-end").textContent = eighteen.getUTCFullYear();
-  $("note").textContent = "This domain is being kept for " + SITE.first + " until their 18th birthday on " +
-    longDate.format(eighteen) + ".";
+  $("note").textContent = TEXT.note(longDate.format(eighteen));
 
   const ticks = $("ticks");
   ticks.querySelectorAll("i").forEach((el) => el.remove());
@@ -252,13 +309,8 @@ function tick() {
   const now = new Date();
   const birth = new Date(SITE.birth);
   const a = ageAt(birth, now);
-  const parts = [];
-  if (a.years) parts.push(plural(a.years, "year"));
-  if (a.months) parts.push(plural(a.months, "month"));
-  parts.push(plural(a.days, "day"));
-  const sentence = parts.length > 1 ? parts.slice(0, -1).join(", ") + " and " + parts[parts.length - 1] : parts[0];
-  const ageText = sentence.replace(/(\d+)/g, '<span class="n">$1</span>') +
-    ' <span style="opacity:.6">· ' + a.totalDays.toLocaleString("en-GB") + " days old</span>";
+  const ageText = TEXT.age(a).replace(/(\d+)/g, '<span class="n">$1</span>') +
+    ' <span style="opacity:.6">· ' + TEXT.daysOld(a.totalDays.toLocaleString(LOCALE)) + "</span>";
   if ($("age").innerHTML !== ageText) $("age").innerHTML = ageText;
   $("clock").textContent = pad(a.hours) + ":" + pad(a.minutes) + ":" + pad(a.seconds);
   $("local-time").textContent = clockFmt.format(now);
@@ -270,9 +322,8 @@ function tick() {
   const nextBirthday = addMonths(birth, (a.years + 1) * 12);
   const inDays = Math.ceil((nextBirthday - now) / 86400000);
   $("ruler-mid").innerHTML = p >= 1
-    ? "<b>18 years.</b> The domain is ready to hand over."
-    : "<b>Year " + (a.years + 1) + " of 18</b> · " + ordinal(a.years + 1) + " birthday " +
-      (inDays <= 1 ? "is tomorrow" : "in " + inDays + " days");
+    ? TEXT.grownUp
+    : "<b>" + TEXT.year(a.years + 1) + "</b> · " + TEXT.nextBirthday(a.years + 1, inDays);
 }
 
 // ---------------- Sun and moon ----------------
@@ -344,11 +395,6 @@ function weatherFromCode(code, cloudCover) {
   return { cloud: Math.max(cloudCover / 100, rain || storm || snow ? .85 : 0), rain: rain || storm, storm, snow, fog,
            heavy: [55, 65, 67, 82].includes(code) || storm };
 }
-const WX_LABEL = { 0: "clear", 1: "mostly clear", 2: "partly cloudy", 3: "overcast", 45: "fog", 48: "fog",
-  51: "drizzle", 53: "drizzle", 55: "drizzle", 61: "light rain", 63: "rain", 65: "heavy rain",
-  71: "snow", 73: "snow", 75: "heavy snow", 80: "showers", 81: "showers", 82: "heavy showers",
-  95: "thunderstorm", 96: "thunderstorm", 99: "thunderstorm" };
-
 let liveWx = { cloud: .1, rain: false, storm: false, snow: false, fog: false, heavy: false };
 async function loadWeather() {
   try {
@@ -356,8 +402,8 @@ async function loadWeather() {
     if (!res.ok) throw new Error(res.status);
     const { current } = await res.json();
     liveWx = weatherFromCode(current.weather_code, current.cloud_cover);
-    $("wx").textContent = "· " + Math.round(current.temperature_2m) + "° · " + (WX_LABEL[current.weather_code] || "—") +
-      " · wind " + Math.round(current.wind_speed_10m) + " km/h";
+    $("wx").textContent = "· " + Math.round(current.temperature_2m) + "° · " + (TEXT.weather[current.weather_code] || "—") +
+      " · " + TEXT.wind(Math.round(current.wind_speed_10m));
     sky.rebuild();
   } catch {
     // Offline or blocked: the sky still follows the sun, without weather.
